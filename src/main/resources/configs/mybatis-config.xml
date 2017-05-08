@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<settings>
+		<setting name="cacheEnabled" value="true" />
+		<!-- 延迟加载的全局开关。默认值：false -->
+		<setting name="lazyLoadingEnabled" value="true" />
+		<!-- 当启用时，对任意延迟属性的调用会使带有延迟加载属性的对象完整加载；反之，每种属性将会按需加载。 -->
+		<setting name="aggressiveLazyLoading" value="true" />
+		<!-- 是否允许单一语句返回多结果集（需要兼容驱动） -->
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<setting name="useColumnLabel" value="true" />
+		<setting name="useGeneratedKeys" value="false" />
+		<setting name="autoMappingBehavior" value="PARTIAL" />
+		<setting name="defaultExecutorType" value="SIMPLE" />
+		<setting name="defaultStatementTimeout" value="25" />
+		<setting name="safeRowBoundsEnabled" value="false" />
+		<!-- 通常数据库列使用大写单词命名，单词间用下划线分隔；而java属性一般遵循驼峰命名法。 -->
+		<!-- 为了在这两种命名方式之间启用自动映射，需要将 mapUnderscoreToCamelCase设置为true。默认为false -->
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+		<!-- MyBatis 利用本地缓存机制（Local Cache）防止循环引用（circular references）和加速重复嵌套查询。 -->
+		<!-- 默认值为 SESSION，这种情况下会缓存一个会话中执行的所有查询。 -->
+		<!-- 若设置值为 STATEMENT，本地会话仅用在语句执行上，对相同 SqlSession 的不同调用将不会共享数据。 -->
+		<setting name="localCacheScope" value="SESSION" />
+		<setting name="jdbcTypeForNull" value="OTHER" />
+		<!-- 指定哪个对象的方法触发一次延迟加载。 -->
+		<setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString" />
+	</settings>
+	<typeAliases>
+		<!-- 每一个在包 com.portal.pojo 中的 Java Bean，在没有注解的情况下，会使用 Bean 的首字母小写的非限定类名来作为它的别名。 -->
+		<!-- 比如 domain.blog.Author 的别名为 author；若有注解，则别名为其注解值。 -->
+		<package name="com.ybg.model" />
+	</typeAliases>
+
+	<!-- <plugins> <plugin interceptor="com.ybg.mybatis.ResultSetHandlerInterceptor"> 
+		<property name="someProperty" value="100" /> </plugin> </plugins> -->
+</configuration>
