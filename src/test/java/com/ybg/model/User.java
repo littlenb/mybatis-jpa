@@ -20,12 +20,15 @@ import com.ybg.type.DataStateEnum;
  *
  */
 @Entity
+/* {@Table}非必须,若无此注解,将类名解析为下划线风格 做为表名 */
 @Table(name = "user")
 public class User {
 
+	/* 非持久化字段 */
 	@Transient
 	private static final long serialVersionUID = -7788405797990662048L;
 
+	/* {@Id}必须,主键标识,{@Column}非必须,若无此注解,或其name="",将字段名解析为下划线风格 做为SQL列名 */
 	@Id
 	@Column(name = "user_Id")
 	private Integer userId;
@@ -39,7 +42,7 @@ public class User {
 	@Column(name = "login_Name")
 	private String loginName;
 
-	@Column(name = "password")
+	@Column(name = "password_alias")
 	private String password;
 
 	@Column(name = "mobile_Phone")
@@ -57,8 +60,9 @@ public class User {
 	@Column(name = "order_Id")
 	private Integer orderId;
 
-	@Column(name = "state")
+	/* {@Enumerated}非必须,若无此注解,按照Mybatis约定,枚举类型使用{@EnumTypeHandler}解析 */
 	@Enumerated
+	@Column(name = "state")
 	private DataStateEnum state;
 
 	@Column(name = "create_Time")
