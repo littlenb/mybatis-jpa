@@ -16,7 +16,7 @@ public class SelectTest extends AbstractMapperTest {
 		System.out.println(user.toString());
 	}
 
-	@Test
+	// @Test
 	public void select() {
 		List<User> list = userMapper.select();
 		System.out.println(list);
@@ -46,7 +46,7 @@ public class SelectTest extends AbstractMapperTest {
 		System.out.println(list);
 	}
 
-	// @Test
+	@Test
 	public void selectComplex() {
 		Map<String, Object> args = new HashMap<String, Object>();
 		args.put("userName", "svili first one");
@@ -55,7 +55,7 @@ public class SelectTest extends AbstractMapperTest {
 		System.out.println(list);
 	}
 
-	// @Test
+	//@Test
 	public void selectComplex2() {
 		Map<String, Object> args = new HashMap<String, Object>();
 		args.put("userName", "svili first one");

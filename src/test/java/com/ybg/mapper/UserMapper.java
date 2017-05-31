@@ -48,7 +48,7 @@ public interface UserMapper extends MybatisBaseMapper<User> {
 	/*more condition or complex SQL,need yourself build*/
 	
 	@Select("select * from ybg_test_user where user_name = #{userName} and dept_id = #{deptId}")
-	@ResultMap(value="BaseResultMap")
+	@ResultMap(value="UserMap")
 	List<User> selectComplex(Map<String, Object> args);
 	
 	List<User> selectComplex2(Map<String, Object> args);

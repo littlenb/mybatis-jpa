@@ -1,8 +1,12 @@
 package com.mybatis.jpa.core;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.ibatis.builder.IncompleteElementException;
+import org.apache.ibatis.builder.annotation.MethodResolver;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -52,6 +56,8 @@ public class MapperEnhancerScaner implements InitializingBean, ApplicationListen
 		}
 		// mybatis configuration
 		Configuration configuration = this.sqlSessionFactory.getConfiguration();
+		
+		
 
 		/** scan **/
 		TypeFilter typeFilter = AnnotationTypeFilterBuilder.build(MapperDefinition.class);
@@ -70,8 +76,24 @@ public class MapperEnhancerScaner implements InitializingBean, ApplicationListen
 				PersistentMapperEnhancer mapperEnhancer = new PersistentMapperEnhancer(configuration, mapper);
 				mapperEnhancer.enhance();
 			}
+			parsePendingMethods(configuration);
 		}
 
+	}
+	
+	private void parsePendingMethods(Configuration configuration) {
+		Collection<MethodResolver> incompleteMethods = configuration.getIncompleteMethods();
+		synchronized (incompleteMethods) {
+			Iterator<MethodResolver> iter = incompleteMethods.iterator();
+			while (iter.hasNext()) {
+				try {
+					iter.next().resolve();
+					iter.remove();
+				} catch (IncompleteElementException e) {
+					// This method is still missing a resource
+				}
+			}
+		}
 	}
 
 }
