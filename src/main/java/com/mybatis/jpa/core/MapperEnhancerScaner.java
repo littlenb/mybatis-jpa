@@ -9,7 +9,6 @@ import org.apache.ibatis.builder.IncompleteElementException;
 import org.apache.ibatis.builder.annotation.MethodResolver;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -27,7 +26,7 @@ import com.mybatis.jpa.common.scanner.SpringClassScanner;
  * @data 2017年5月8日
  *
  */
-public class MapperEnhancerScaner implements InitializingBean, ApplicationListener<ApplicationEvent> {
+public class MapperEnhancerScaner implements ApplicationListener<ApplicationEvent> {
 
 	/* 初始化参数:mapper package base place */
 	private String basePackage;
@@ -42,11 +41,6 @@ public class MapperEnhancerScaner implements InitializingBean, ApplicationListen
 
 	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
 		this.sqlSessionFactory = sqlSessionFactory;
-	}
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-
 	}
 
 	@Override

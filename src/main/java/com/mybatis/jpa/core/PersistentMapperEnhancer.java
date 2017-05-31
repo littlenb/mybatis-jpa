@@ -99,9 +99,10 @@ public class PersistentMapperEnhancer extends BaseBuilder {
 		// build and register ResultMap;
 		ResultMapAdapter.parseResultMap(assistant, persistentMeta);
 
-		// build and register Mybatis Statement {@see MappedStatement}
-		// there use class.getMethods it means also contains methods from
-		// superClass
+		/*
+		 * build and register Mybatis Statement {@see MappedStatement} there use
+		 * class.getMethods it means also contains methods from superClass
+		 */
 		for (Method method : mapper.getMethods()) {
 			/*
 			 * method will be definition if it has annotation with {@see
