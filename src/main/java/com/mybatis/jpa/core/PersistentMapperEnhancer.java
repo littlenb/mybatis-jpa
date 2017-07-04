@@ -97,7 +97,10 @@ public class PersistentMapperEnhancer extends BaseBuilder {
 			return;
 		}
 		// build and register ResultMap;
-		ResultMapAdapter.parseResultMap(assistant, persistentMeta);
+		String resultMap = persistentMeta.getType().getSimpleName() + "ResultMap";
+		if (!configuration.getResultMapNames().contains(resultMap)) {
+			ResultMapAdapter.parseResultMap(assistant, persistentMeta);
+		}
 
 		/*
 		 * build and register Mybatis Statement {@see MappedStatement} there use
@@ -124,7 +127,7 @@ public class PersistentMapperEnhancer extends BaseBuilder {
 		static void parseResultMap(MapperBuilderAssistant assistant, PersistentMeta persistentMeta) {
 			Class<?> resultType = persistentMeta.getType();
 
-			String id = resultType.getSimpleName() + "Map";
+			String id = resultType.getSimpleName() + "ResultMap";
 			String extend = null;
 			// 是否自动映射
 			Boolean autoMapping = false;

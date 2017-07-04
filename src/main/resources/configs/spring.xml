@@ -29,6 +29,7 @@
 			<list>
 				<!-- db -->
 				<value>classpath:configs/db.properties</value>
+				<value>classpath:configs/system_config.properties</value>
 			</list>
 		</property>
 	</bean>

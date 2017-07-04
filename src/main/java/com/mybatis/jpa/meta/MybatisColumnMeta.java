@@ -4,8 +4,10 @@ import java.lang.reflect.Field;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Lob;
 
 import org.apache.ibatis.builder.BuilderException;
+import org.apache.ibatis.type.BooleanTypeHandler;
 import org.apache.ibatis.type.EnumOrdinalTypeHandler;
 import org.apache.ibatis.type.EnumTypeHandler;
 import org.apache.ibatis.type.JdbcType;
@@ -78,6 +80,11 @@ public class MybatisColumnMeta {
 				}
 				return "VARCHAR";
 			}
+			if (field.isAnnotationPresent(Lob.class)) {
+				if (String.class.equals(fieldType)) {
+					return "CLOB";
+				}
+			}
 			if (Integer.class.equals(fieldType)) {
 				return "INTEGER";
 			}
@@ -121,6 +128,10 @@ public class MybatisColumnMeta {
 						typeHandlerClass = (Class<? extends TypeHandler<?>>) EnumOrdinalTypeHandler.class;
 					}
 				}
+			}
+
+			if (field.getType().equals(Boolean.class)) {
+				typeHandlerClass = (Class<? extends TypeHandler<?>>) BooleanTypeHandler.class;
 			}
 			return typeHandlerClass;
 		}
