@@ -48,10 +48,14 @@ public class MapperEnhancerScaner implements ApplicationListener<ApplicationEven
 		if (!(event instanceof ContextRefreshedEvent)) {
 			return;
 		}
+
+		// root application context 没有parent.
+		if (((ContextRefreshedEvent) event).getApplicationContext().getParent() != null) {
+			return;
+		}
+
 		// mybatis configuration
 		Configuration configuration = this.sqlSessionFactory.getConfiguration();
-		
-		
 
 		/** scan **/
 		TypeFilter typeFilter = AnnotationTypeFilterBuilder.build(MapperDefinition.class);
@@ -74,7 +78,7 @@ public class MapperEnhancerScaner implements ApplicationListener<ApplicationEven
 		}
 
 	}
-	
+
 	private void parsePendingMethods(Configuration configuration) {
 		Collection<MethodResolver> incompleteMethods = configuration.getIncompleteMethods();
 		synchronized (incompleteMethods) {
