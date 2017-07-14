@@ -2,6 +2,8 @@ package com.mybatis.jpa.statement.builder;
 
 import java.lang.reflect.Method;
 
+import javax.persistence.OrderBy;
+
 import org.apache.ibatis.executor.keygen.NoKeyGenerator;
 import org.apache.ibatis.mapping.SqlCommandType;
 
@@ -29,8 +31,14 @@ public class SelectBuilder implements StatementBuildable {
 			adapter.setParameterTypeClass(void.class);
 		}
 
+		String orderBy = " ";
+
+		if (method.isAnnotationPresent(OrderBy.class)) {
+			orderBy = " order by " + method.getAnnotation(OrderBy.class).value();
+		}
+
 		// sqlScript
-		adapter.setSqlScript(buildSQL(persistentMeta, method));
+		adapter.setSqlScript(buildSQL(persistentMeta, method) + orderBy);
 		// 返回值类型
 		adapter.setResultType(persistentMeta.getType());
 		adapter.setResultMapId(persistentMeta.getType().getSimpleName() + "ResultMap");
