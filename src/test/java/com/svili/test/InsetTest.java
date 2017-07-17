@@ -1,11 +1,17 @@
-package com.ybg.test;
+package com.svili.test;
+
+import javax.annotation.Resource;
 
 import org.junit.Test;
 
-import com.ybg.model.User;
-import com.ybg.type.DataStateEnum;
+import com.svili.mapper.UserMapper;
+import com.svili.model.User;
+import com.svili.type.DataStateEnum;
 
-public class InsetTest extends AbstractMapperTest {
+public class InsetTest extends AbstractTest {
+	
+	@Resource
+	protected UserMapper userMapper;
 
 	//@Test
 	public void insert() {

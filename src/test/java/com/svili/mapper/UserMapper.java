@@ -1,4 +1,4 @@
-package com.ybg.mapper;
+package com.svili.mapper;
 
 import java.util.List;
 import java.util.Map;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.mybatis.jpa.annotation.MapperDefinition;
 import com.mybatis.jpa.annotation.StatementDefinition;
 import com.mybatis.jpa.mapper.MybatisBaseMapper;
-import com.ybg.model.User;
+import com.svili.model.User;
 
 /**
  * test
@@ -47,8 +47,9 @@ public interface UserMapper extends MybatisBaseMapper<User> {
 
 	/*more condition or complex SQL,need yourself build*/
 	
+	/**注意,此方法的resultMap是jpa自动生成的UserResultMap*/
 	@Select("select * from ybg_test_user where user_name = #{userName} and dept_id = #{deptId}")
-	@ResultMap(value="UserMap")
+	@ResultMap(value="UserResultMap")
 	List<User> selectComplex(Map<String, Object> args);
 	
 	List<User> selectComplex2(Map<String, Object> args);

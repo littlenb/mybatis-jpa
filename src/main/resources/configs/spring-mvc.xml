@@ -8,20 +8,16 @@
             http://www.springframework.org/schema/context/spring-context.xsd
             http://www.springframework.org/schema/mvc  
             http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-	<!-- default-lazy-init="true"> -->
+
+	<description>spring mvc example</description>
 
 	<!-- 添加注解驱动 -->
 	<!-- <mvc:annotation-driven /> -->
 	<mvc:annotation-driven>
 		<mvc:message-converters>
-			<!-- <bean class="org.springframework.http.converter.StringHttpMessageConverter">
-				<property name="supportedMediaTypes">
-					<list>
-						<value>text/plain;charset=UTF-8</value>
-						<value>text/html;charset=UTF-8</value>
-					</list>
-				</property>
-			</bean> -->
+			<!-- <bean class="org.springframework.http.converter.StringHttpMessageConverter"> 
+				<property name="supportedMediaTypes"> <list> <value>text/plain;charset=UTF-8</value> 
+				<value>text/html;charset=UTF-8</value> </list> </property> </bean> -->
 			<bean
 				class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
 				<property name="supportedMediaTypes">
@@ -44,9 +40,10 @@
 
 	<mvc:default-servlet-handler />
 
-	<!-- 默认扫描的包路径 use-default-filters="false" -->
-	<context:component-scan base-package="com.ybg.controller">
-		<!-- 扫描base-package外的controller -->
+	<!-- 默认扫描的包路径 -->
+	<context:component-scan base-package="com.svili"
+		use-default-filters="false">
+		<!-- 只扫描base-package内的controller -->
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>

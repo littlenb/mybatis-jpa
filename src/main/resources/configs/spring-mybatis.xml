@@ -9,7 +9,7 @@
                         http://www.springframework.org/schema/tx
                         http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-	<description>spring mybatis</description>
+	<description>spring mybatis example</description>
 	<!-- 数据源 -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
 		destroy-method="close">
@@ -49,18 +49,5 @@
 		<property name="basePackage" value="com.ybg.mapper" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
-
-	<!-- JdbcTemplate -->
-	<!-- <bean id="namedparamJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate"> 
-		<constructor-arg ref="dataSource" /> </bean> -->
-
-	<!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
-	<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-
-	<!-- 开启注解事务的支持 -->
-	<tx:annotation-driven transaction-manager="transactionManager" />
 
 </beans>  

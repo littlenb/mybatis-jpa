@@ -1,4 +1,4 @@
-package com.ybg.model;
+package com.svili.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.alibaba.fastjson.JSON;
-import com.ybg.type.DataStateEnum;
+import com.svili.type.DataStateEnum;
 
 /**
  * 用户信息

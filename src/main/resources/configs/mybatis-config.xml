@@ -32,7 +32,7 @@
 	<typeAliases>
 		<!-- 每一个在包 com.portal.pojo 中的 Java Bean，在没有注解的情况下，会使用 Bean 的首字母小写的非限定类名来作为它的别名。 -->
 		<!-- 比如 domain.blog.Author 的别名为 author；若有注解，则别名为其注解值。 -->
-		<package name="com.ybg.model" />
+		<package name="com.svili.model" />
 	</typeAliases>
 
 	<!-- <plugins> <plugin interceptor="com.ybg.mybatis.ResultSetHandlerInterceptor"> 

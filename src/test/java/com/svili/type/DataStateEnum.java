@@ -1,4 +1,4 @@
-package com.ybg.type;
+package com.svili.type;
 
 /**
  * 数据有效性

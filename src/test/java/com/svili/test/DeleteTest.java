@@ -1,8 +1,15 @@
-package com.ybg.test;
+package com.svili.test;
+
+import javax.annotation.Resource;
 
 import org.junit.Test;
 
-public class DeleteTest extends AbstractMapperTest {
+import com.svili.mapper.UserMapper;
+
+public class DeleteTest extends AbstractTest {
+	
+	@Resource
+	protected UserMapper userMapper;
 
 	//@Test
 	public void delete() {

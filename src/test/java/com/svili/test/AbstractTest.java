@@ -1,23 +1,19 @@
-package com.ybg.test;
+package com.svili.test;
 
 import java.io.FileNotFoundException;
-import java.lang.reflect.Method;
-import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Log4jConfigurer;
 
-import com.ybg.mapper.UserMapper;
-import com.ybg.model.User;
+import com.svili.mapper.UserMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:configs/spring.xml" })
-public abstract class AbstractMapperTest {
+public abstract class AbstractTest {
 
 	static {
 		try {

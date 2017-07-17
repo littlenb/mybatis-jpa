@@ -1,14 +1,20 @@
-package com.ybg.test;
+package com.svili.test;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.junit.Test;
 
-import com.ybg.model.User;
+import com.svili.mapper.UserMapper;
+import com.svili.model.User;
 
-public class SelectTest extends AbstractMapperTest {
+public class SelectTest extends AbstractTest {
+	
+	@Resource
+	protected UserMapper userMapper;
 
 	// @Test
 	public void selectByPrimaryKey() {
