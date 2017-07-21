@@ -18,6 +18,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface MapperDefinition {
-	/* 持久化Entity类型 */
+	/** 持久化Entity类型 */
 	Class<?> domainClass();
 }

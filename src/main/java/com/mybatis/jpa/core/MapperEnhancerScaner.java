@@ -28,10 +28,10 @@ import com.mybatis.jpa.common.scanner.SpringClassScanner;
  */
 public class MapperEnhancerScaner implements ApplicationListener<ApplicationEvent> {
 
-	/* 初始化参数:mapper package base place */
+	/** 初始化参数:mapper package base place */
 	private String basePackage;
 
-	/* 初始化参数:sqlSessionFactory */
+	/** 初始化参数:sqlSessionFactory */
 	private SqlSessionFactory sqlSessionFactory;
 
 	// setter

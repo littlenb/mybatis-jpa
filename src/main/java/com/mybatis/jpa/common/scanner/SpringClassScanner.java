@@ -26,16 +26,16 @@ import org.springframework.util.SystemPropertyUtils;
  */
 public class SpringClassScanner {
 
-	/* the file type to scan : .class */
+	/** the file type to scan : .class */
 	public static final String RESOURCE_PATTERN = "**/*.class";
 
-	/* packages to scan */
+	/** packages to scan */
 	private Set<String> scanPackages;
 
-	/* more filters with relation default and */
+	/** more filters with relation default and */
 	private Set<TypeFilter> typeFilters;
 
-	/*filterAll or filterWhether*/
+	/** filterAll or filterWhether */
 	private boolean filterFlag = true;
 
 	private SpringClassScanner() {
@@ -44,7 +44,7 @@ public class SpringClassScanner {
 	}
 
 	public Set<Class<?>> scan() throws ClassNotFoundException, IOException {
-		Set<Class<?>> classSet = new HashSet<Class<?>>();
+		Set<Class<?>> classSet = new HashSet<>();
 		if (!this.scanPackages.isEmpty()) {
 			ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
 			MetadataReaderFactory readerFactory = new CachingMetadataReaderFactory(resourcePatternResolver);
@@ -52,10 +52,6 @@ public class SpringClassScanner {
 				String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX
 						+ ClassUtils.convertClassNameToResourcePath(SystemPropertyUtils.resolvePlaceholders(pkg)) + "/"
 						+ RESOURCE_PATTERN;
-				// String pattern =
-				// ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX
-				// + ClassUtils.convertClassNameToResourcePath(pkg) + "/" +
-				// RESOURCE_PATTERN;
 				Resource[] resources = resourcePatternResolver.getResources(packageSearchPath);
 
 				for (Resource resource : resources) {
@@ -82,7 +78,7 @@ public class SpringClassScanner {
 		}
 	}
 
-	/*must to be every one of filters is matched,return true*/
+	/** must to be every one of filters is matched,return true */
 	private boolean filterAll(MetadataReader reader, MetadataReaderFactory readerFactory) throws IOException {
 		if (!this.typeFilters.isEmpty()) {
 			for (TypeFilter filter : this.typeFilters) {
@@ -95,7 +91,7 @@ public class SpringClassScanner {
 		return false;
 	}
 
-	/*if any one of filters is matched,return true*/
+	/** if any one of filters is matched,return true */
 	private boolean filterWhether(MetadataReader reader, MetadataReaderFactory readerFactory) throws IOException {
 		if (!this.typeFilters.isEmpty()) {
 			for (TypeFilter filter : this.typeFilters) {
@@ -120,9 +116,10 @@ public class SpringClassScanner {
 			this.scanner.getTypeFilters().add(typeFilter);
 			return this;
 		}
-		
-		public Builder filterFlag(boolean filterFlag){
-			this.scanner.setFilterFlag(filterFlag);;
+
+		public Builder filterFlag(boolean filterFlag) {
+			this.scanner.setFilterFlag(filterFlag);
+			;
 			return this;
 		}
 
@@ -131,7 +128,7 @@ public class SpringClassScanner {
 		}
 	}
 
-	/* getter and setter */
+	/** getter and setter */
 	public Set<String> getScanPackages() {
 		return scanPackages;
 	}

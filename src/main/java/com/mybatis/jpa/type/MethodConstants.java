@@ -10,7 +10,7 @@ package com.mybatis.jpa.type;
  */
 public class MethodConstants {
 
-	/* insert非空字段 */
+	/** insert非空字段 */
 	public final static String INSERT_SELECTIVE = "insertSelective";
 
 	public final static String INSERT = "insert";

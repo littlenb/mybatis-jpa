@@ -46,7 +46,7 @@ public class SqlAssistant {
 		}
 	}
 
-	/* 识别{@link MethodConstants}中定义的methodType */
+	/** 识别{@link MethodConstants}中定义的methodType */
 	public static String resolveMethodType(String methodName) {
 		// 注意顺序 insert insertSelective,insert应放在后面判断
 		if (methodName.startsWith(MethodConstants.INSERT_SELECTIVE)) {
@@ -89,7 +89,7 @@ public class SqlAssistant {
 		return null;
 	}
 
-	/* 识别@{link OperateEnum}定义的条件操作符 */
+	/** 识别@{link OperateEnum}定义的条件操作符 */
 	private static OperateEnum resolveOperate(String expression) {
 		OperateEnum[] enums = OperateEnum.values();
 		for (OperateEnum operate : enums) {
@@ -100,7 +100,7 @@ public class SqlAssistant {
 		return OperateEnum.EQUAL;
 	}
 
-	/* 装配sql中动态参数的占位符 #{paramterName,jdbcType=,typeHandler=} */
+	/** 装配sql中动态参数的占位符 #{paramterName,jdbcType=,typeHandler=} */
 	public final static String resolveSqlParameter(MybatisColumnMeta columnMeta) {
 		String sqlParameter = "#{" + columnMeta.getProperty();
 

@@ -33,7 +33,8 @@ public class FieldReflectUtil {
 
 		// 基本数据类型
 		if (field.getType().isPrimitive()) {
-			//PrimitiveReflectUtil.setFieldPrimitiveValue(target, field, value);
+			// PrimitiveReflectUtil.setFieldPrimitiveValue(target, field,
+			// value);
 		}
 
 		// 空值处理
@@ -66,7 +67,7 @@ public class FieldReflectUtil {
 		}
 		// Enum类型字段处理
 		if (field.getType().isEnum()) {
-			//return EnumFieldReflectUtil.getFieldEnumOrdinal(target, field);
+			// return EnumFieldReflectUtil.getFieldEnumOrdinal(target, field);
 		}
 		return field.get(target);
 	}
@@ -102,9 +103,8 @@ public class FieldReflectUtil {
 	 *            class对象
 	 * @return
 	 */
-	@Deprecated
 	public static List<Field> getAllField(Class<?> clazz) {
-		List<Field> list = new ArrayList<Field>();
+		List<Field> list = new ArrayList<>();
 		Class<?> searchType = clazz;
 		while (!Object.class.equals(searchType) && searchType != null) {
 			Field[] fields = searchType.getDeclaredFields();

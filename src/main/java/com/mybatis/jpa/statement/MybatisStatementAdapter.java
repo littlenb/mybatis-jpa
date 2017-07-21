@@ -18,41 +18,41 @@ import org.apache.ibatis.scripting.LanguageDriver;
  */
 public class MybatisStatementAdapter {
 
-	/* mybatis assistant */
+	/** mybatis assistant */
 	private MapperBuilderAssistant assistant;
 
 	private LanguageDriver languageDriver;
 
-	/* 方法名 */
+	/** 方法名 */
 	private String methodName;
 
-	/* 参数类型 mybatis dao 只能有一个参数,多个参数请使用map封装 */
+	/** 参数类型 mybatis dao 只能有一个参数,多个参数请使用map封装 */
 	private Class<?> parameterTypeClass;
 
-	/* sql表达式,动态sql需使用<script>标签装饰:<script>dynamicSql</script> */
+	/** sql表达式,动态sql需使用<script>标签装饰:<script>dynamicSql</script> */
 	private String sqlScript;
 
-	/* default null */
+	/** default null */
 	private Integer fetchSize;
-	/* default null */
+	/** default null */
 	private Integer timeout;
 
-	/* default StatementType.PREPARED */
+	/** default StatementType.PREPARED */
 	private StatementType statementType;
-	/* default ResultSetType.FORWARD_ONLY */
+	/** default ResultSetType.FORWARD_ONLY */
 	private ResultSetType resultSetType;
 
-	/* insert / update / delete /select */
+	/** insert / update / delete /select */
 	private SqlCommandType sqlCommandType;
 
-	/* 主键策略 */
+	/** 主键策略 */
 	private KeyGenerator keyGenerator;
 	private String keyProperty;
 	private String keyColumn;
 
-	/* resultMap default : currentNamespace + "." + methodName */
+	/** resultMap default : currentNamespace + "." + methodName */
 	String resultMapId;
-	/* 方法返回值类型 */
+	/** 方法返回值类型 */
 	private Class<?> resultType;
 
 	protected MybatisStatementAdapter() {
@@ -65,7 +65,7 @@ public class MybatisStatementAdapter {
 		this.initParameters();
 	}
 
-	/* 初始化默认参数 */
+	/** 初始化默认参数 */
 	private void initParameters() {
 		this.languageDriver = assistant.getLanguageDriver(null);
 		// dynamic & has parameters
@@ -76,7 +76,7 @@ public class MybatisStatementAdapter {
 		// this.keyGenerator = new NoKeyGenerator();
 	}
 
-	/* 创建mybatis statement,并向configuration中注册 */
+	/** 创建mybatis statement,并向configuration中注册 */
 	public final void parseStatement() {
 		SqlSource sqlSource = this.buildSqlSource(sqlScript, parameterTypeClass);
 		if (sqlSource != null) {
@@ -121,12 +121,12 @@ public class MybatisStatementAdapter {
 		return currentNamespace + "." + this.methodName;
 	}
 
-	/* 创建mybatis SqlSource */
+	/** 创建mybatis SqlSource */
 	private SqlSource buildSqlSource(String sqlScript, Class<?> parameterTypeClass, LanguageDriver languageDriver) {
 		return languageDriver.createSqlSource(this.assistant.getConfiguration(), sqlScript, parameterTypeClass);
 	}
 
-	/* 创建mybatis SqlSource */
+	/** 创建mybatis SqlSource */
 	private SqlSource buildSqlSource(String sqlScript, Class<?> parameterTypeClass) {
 		return buildSqlSource(sqlScript, parameterTypeClass, this.languageDriver);
 	}

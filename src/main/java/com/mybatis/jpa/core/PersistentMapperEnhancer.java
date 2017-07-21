@@ -40,19 +40,19 @@ import com.mybatis.jpa.statement.builder.StatementBuildable;
  */
 public class PersistentMapperEnhancer extends BaseBuilder {
 
-	/* mybatis */
+	/** mybatis */
 	protected MapperBuilderAssistant assistant;
 
-	/* mybatis mapper接口类型 */
+	/** mybatis mapper接口类型 */
 	protected Class<?> mapper;
 
-	/* 持久化Entity类型 */
+	/** 持久化Entity类型 */
 	protected Class<?> type;
 
-	/* 持久化Entity元数据 */
+	/** 持久化Entity元数据 */
 	protected PersistentMeta persistentMeta;
 
-	/* MybatisStatement 适配器 */
+	/** MybatisStatement 适配器 */
 	protected MybatisStatementAdapter adapter;
 
 	/**
@@ -80,7 +80,7 @@ public class PersistentMapperEnhancer extends BaseBuilder {
 		}
 	}
 
-	/* mapper增强方法入口 */
+	/** mapper增强方法入口 */
 	public void enhance() {
 		String resource = mapper.toString();
 		if (!configuration.isResourceLoaded(resource)) {
@@ -121,7 +121,7 @@ public class PersistentMapperEnhancer extends BaseBuilder {
 		}
 	}
 
-	/* resultMap adapter */
+	/** resultMap adapter */
 	private static class ResultMapAdapter {
 
 		static void parseResultMap(MapperBuilderAssistant assistant, PersistentMeta persistentMeta) {
@@ -153,7 +153,7 @@ public class PersistentMapperEnhancer extends BaseBuilder {
 				String resultSet = null;
 				String foreignColumn = null;
 				// if primaryKey flags.add(ResultFlag.ID);
-				List<ResultFlag> flags = new ArrayList<ResultFlag>();
+				List<ResultFlag> flags = new ArrayList<>();
 				// lazy or eager
 				boolean lazy = false;
 				// enum

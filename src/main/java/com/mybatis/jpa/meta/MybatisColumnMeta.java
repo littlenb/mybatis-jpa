@@ -24,27 +24,27 @@ import com.mybatis.jpa.common.PersistentUtil;
  */
 public class MybatisColumnMeta {
 
-	/* 是否为主键 */
+	/** 是否为主键 */
 	private boolean primaryKey;
 
-	/* Java fieldName */
+	/** Java fieldName */
 	private String property;
 
 	private String columnName;
 
-	/* fieldType */
+	/** fieldType */
 	private Class<?> type;
 
-	/* mybatis jdbcTypeAlias */
+	/** mybatis jdbcTypeAlias */
 	private String jdbcTypeAlias;
 
-	/* mybatis jdbcType */
+	/** mybatis jdbcType */
 	private JdbcType jdbcType;
 
-	/* mybatis typeHandler */
+	/** mybatis typeHandler */
 	private Class<? extends TypeHandler<?>> typeHandlerClass;
 
-	/* 持久化字段 */
+	/** 持久化字段 */
 	private Field field;
 
 	public MybatisColumnMeta(Field field) {
@@ -58,16 +58,11 @@ public class MybatisColumnMeta {
 		this.typeHandlerClass = ColumnMetaResolver.resolveTypeHandler(field);
 	}
 
-	/* meta resolver */
+	/** meta resolver */
 	private static class ColumnMetaResolver {
 
 		public static String resolveJdbcAlias(Field field) {
-			/*
-			 * if (field.isAnnotationPresent(Column.class)) { // 获取注解对象 Column
-			 * columnAnno = field.getAnnotation(Column.class); // 设置了name属性 if
-			 * (!columnAnno.columnDefinition().trim().equals("")) { return
-			 * columnAnno.columnDefinition(); } }
-			 */
+
 			Class<?> fieldType = field.getType();
 			if (field.getType().isEnum()) {
 				if (field.isAnnotationPresent(Enumerated.class)) {

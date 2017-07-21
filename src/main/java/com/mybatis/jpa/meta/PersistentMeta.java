@@ -17,23 +17,23 @@ import com.mybatis.jpa.common.PersistentUtil;
  */
 public class PersistentMeta {
 
-	/* 持久化对象 类型 */
+	/** 持久化对象 类型 */
 	private Class<?> type;
 
-	/* 表名 */
+	/** 表名 */
 	private String tableName;
 
 	// private String primaryKey;
 
-	/* 主键column元数据 */
+	/** 主键column元数据 */
 	private MybatisColumnMeta primaryColumnMeta;
 
-	/* 列名集 */
+	/** 列名集 */
 	private List<String> columnNameCollection;
 
 	private String columnNames;
 
-	/* column元数据集 {key-fieldName} */
+	/** column元数据集 {key-fieldName} */
 	private Map<String, MybatisColumnMeta> columnMetaMap;
 
 	public PersistentMeta(Class<?> type) {

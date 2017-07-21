@@ -14,7 +14,7 @@ import com.mybatis.jpa.statement.MybatisStatementAdapter;
  */
 public interface StatementBuildable {
 
-	/* sql */
+	/** sql */
 	String buildSQL(PersistentMeta persistentMeta, Method method);
 
 	/**

@@ -25,10 +25,10 @@ import com.mybatis.jpa.type.MethodConstants;
  */
 public class StatementBuilderHolder {
 
-	/* key is methodType @{link MethodConstants} */
+	/** key is methodType @{link MethodConstants} */
 	private static Map<String, StatementBuildable> builderMap;
 
-	/* 私有化构造方法,不允许创建实例对象 */
+	/** 私有化构造方法,不允许创建实例对象 */
 	private StatementBuilderHolder() {
 	}
 

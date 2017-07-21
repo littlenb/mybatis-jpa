@@ -19,7 +19,7 @@ public class ColumnNameUtil {
 		if (text == null || "".equals(text.trim())) {
 			return "";
 		}
-		StringBuffer result = new StringBuffer(text.length() + 1);
+		StringBuilder result = new StringBuilder(text.length() + 1);
 		result.append(text.substring(0, 1));
 		for (int i = 1; i < text.length(); i++) {
 			if (!Character.isLowerCase(text.charAt(i))) {
@@ -41,7 +41,7 @@ public class ColumnNameUtil {
 			return "";
 		}
 		int length = text.length();
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 		for (int i = 0; i < length; i++) {
 			char c = text.charAt(i);
 			if (c == '_') {

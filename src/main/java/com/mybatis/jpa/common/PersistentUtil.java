@@ -167,10 +167,10 @@ public class PersistentUtil {
 	 */
 	public static Map<String, Field> getColumnFieldMapping(Class<?> clazz) {
 		List<Field> fieldList = getPersistentFields(clazz);
-		if (fieldList == null || fieldList.size() == 0) {
+		if (fieldList == null || fieldList.isEmpty()) {
 			return null;
 		}
-		Map<String, Field> mapping = new HashMap<String, Field>();
+		Map<String, Field> mapping = new HashMap<>();
 		String className = clazz.getName();
 		for (Field field : fieldList) {
 			mapping.put(className + "." + getColumnName(field), field);
@@ -187,7 +187,7 @@ public class PersistentUtil {
 	 * @return
 	 */
 	public static List<Field> getPersistentFields(Class<?> clazz) {
-		List<Field> list = new ArrayList<Field>();
+		List<Field> list = new ArrayList<>();
 		Class<?> searchType = clazz;
 		while (!Object.class.equals(searchType) && searchType != null) {
 			Field[] fields = searchType.getDeclaredFields();
