@@ -11,22 +11,22 @@ package com.mybatis.jpa.type;
 public class MethodConstants {
 
 	/** insert非空字段 */
-	public final static String INSERT_SELECTIVE = "insertSelective";
+	public static final String INSERT_SELECTIVE = "insertSelective";
 
-	public final static String INSERT = "insert";
+	public static final String INSERT = "insert";
 
-	public final static String BATCH_INSERT = "batchInsert";
+	public static final String BATCH_INSERT = "batchInsert";
 
-	public final static String DELETE = "delete";
+	public static final String DELETE = "delete";
 
-	public final static String UPDATE_SELECTIVE = "updateSelective";
+	public static final String UPDATE_SELECTIVE = "updateSelective";
 
-	public final static String UPDATE = "update";
+	public static final String UPDATE = "update";
 
-	public final static String BATCH_UPDATE = "batchUpdate";
+	public static final String BATCH_UPDATE = "batchUpdate";
 
-	public final static String SELECT_PAGE = "selectPage";
+	public static final String SELECT_PAGE = "selectPage";
 
-	public final static String SELECT = "select";
+	public static final String SELECT = "select";
 
 }

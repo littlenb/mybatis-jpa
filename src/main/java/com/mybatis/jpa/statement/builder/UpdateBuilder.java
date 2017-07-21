@@ -29,7 +29,7 @@ public class UpdateBuilder implements StatementBuildable {
 	public void parseStatement(MybatisStatementAdapter adapter, PersistentMeta persistentMeta, Method method) {
 		// 方法名
 		adapter.setMethodName(method.getName());
-		// 参数类型 
+		// 参数类型
 		adapter.setParameterTypeClass(persistentMeta.getType());
 		// sqlScript
 		adapter.setSqlScript(buildSQL(persistentMeta, method));
