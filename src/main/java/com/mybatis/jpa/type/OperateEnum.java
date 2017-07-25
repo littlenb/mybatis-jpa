@@ -11,9 +11,16 @@ package com.mybatis.jpa.type;
  *
  */
 public enum OperateEnum {
-	LESSTHAN("LessThan", " < "), GREATERTHAN("GreaterThan", " > "), ISNULL("IsNull", " is null "), NOTNULL("NotNull",
-			" is not null "), NOTLIKE("NotLike", " not like "), LIKE("Like",
-					" like "), EQUAL("Is", " = "), NOT("Not", " != "), NOTIN("NotIn", " not in "), IN("In", " in ");
+	LESSTHAN("LessThan", " < "), 
+	GREATERTHAN("GreaterThan", " > "), 
+	ISNULL("IsNull", " is null "), 
+	NOTNULL("NotNull"," is not null "), 
+	NOTLIKE("NotLike", " not like "), 
+	LIKE("Like"," like "), 
+	EQUAL("Is", " = "), 
+	NOT("Not", " != "), 
+	NOTIN("NotIn", " not in "), 
+	IN("In", " in ");
 
 	private String alias;
 

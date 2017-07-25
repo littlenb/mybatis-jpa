@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.ybg.mapper.UserMapper">
+<mapper namespace="com.svili.mapper.UserMapper">
 
-	<resultMap id="BaseResultMap" type="User">
+	<resultMap id="BaseResultMap" type="com.svili.model.User">
 		<id column="user_id" property="userId" jdbcType="INTEGER" />
 		<result column="dept_id" property="deptId" jdbcType="INTEGER" />
 		<result column="user_name" property="userName" jdbcType="VARCHAR" />
@@ -14,10 +14,9 @@
 		<result column="email" property="email" jdbcType="VARCHAR" />
 		<result column="job" property="job" jdbcType="VARCHAR" />
 		<result column="order_id" property="orderId" jdbcType="INTEGER" />
-		<result column="state" property="state"
-			typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
-			<result column="CREATE_TIME" property="createTime" jdbcType="DATE"/>
-			<result column="UPDATE_TIME" property="updateTime" jdbcType="DATE"/>
+		<result column="state" property="state" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="DATE"/>
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="DATE"/>
 	</resultMap>
 
 	<sql id="Base_Column_List">
@@ -30,7 +29,7 @@
 	<select id="selectComplex2" parameterType="object" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from ybg_test_user
+		from user
 		where user_name = #{userName} and dept_id =
 		#{deptId}
 	</select>

@@ -7,19 +7,24 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.svili.mapper.UserMapper;
 import com.svili.model.User;
 
 public class SelectTest extends AbstractTest {
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(SelectTest.class);
+	
 	@Resource
 	protected UserMapper userMapper;
 
-	// @Test
+	@Test
 	public void selectByPrimaryKey() {
 		User user = userMapper.selectByPrimaryKey(1);
-		System.out.println(user.toString());
+		if (user != null)
+			LOGGER.info(user.toString());
 	}
 
 	// @Test
@@ -52,7 +57,7 @@ public class SelectTest extends AbstractTest {
 		System.out.println(list);
 	}
 
-	@Test
+//	@Test
 	public void selectComplex() {
 		Map<String, Object> args = new HashMap<String, Object>();
 		args.put("userName", "svili first one");

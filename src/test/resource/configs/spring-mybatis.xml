@@ -13,10 +13,10 @@
 	<!-- 数据源 -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
 		destroy-method="close">
-		<property name="driverClassName" value="${oracle.driver}" />
-		<property name="url" value="${oracle.url}" />
-		<property name="username" value="${oracle.username}" />
-		<property name="password" value="${oracle.password}" />
+		<property name="driverClassName" value="${mysql.driver}" />
+		<property name="url" value="${mysql.url}" />
+		<property name="username" value="${mysql.username}" />
+		<property name="password" value="${mysql.password}" />
 		<!-- 初始化连接大小 -->
 		<property name="initialSize" value="${initialSize}"></property>
 		<!-- 连接池最大数量 -->
@@ -40,13 +40,13 @@
 
 	<!-- Mapper接口所在包名，Spring会自动查找其下的类 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.ybg.mapper" />
+		<property name="basePackage" value="com.svili.mapper" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 	</bean>
 
 	<!-- Mybatis JPA Mapper 所在包路径 -->
 	<bean class="com.mybatis.jpa.core.MapperEnhancerScaner">
-		<property name="basePackage" value="com.ybg.mapper" />
+		<property name="basePackage" value="com.svili.mapper" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
 
