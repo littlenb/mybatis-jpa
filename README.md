@@ -1,102 +1,93 @@
 # mybatis-jpa
 
-[![Version](https://img.shields.io/badge/version-1.1.0-brightgreen.svg)](http://search.maven.org/#search%7Cga%7C1%7Cmybatis-jpa)
-[![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
-[![JDK 1.7](https://img.shields.io/badge/JDK-1.7-green.svg "JDK 1.7")]()
-## 集成方式
-### maven dependency
+[![Mybatis](https://img.shields.io/badge/mybatis-3.4.x-brightgreen.svg)](https://maven-badges.herokuapp.com/maven-central/org.mybatis/mybatis)
+[![JDK 1.7](https://img.shields.io/badge/JDK-1.7-green.svg)]()
+[![maven central](https://img.shields.io/badge/version-2.1.0-brightgreen.svg)](http://search.maven.org/#artifactdetails%7Ccom.github.cnsvili%7Cmybatis-jpa%7C2.1.0%7C)
+[![APACHE 2 License](https://img.shields.io/badge/license-Apache2-blue.svg?style=flat)](LICENSE)
+
+[:book: English Documentation](README-EN.md) | :book: 中文文档
+
+Mybatis插件，提供Mybatis处理JPA的能力。
+
+## maven
+
 ```xml
-<dependency>
-	<groupId>com.github.littlenewbie</groupId>
-	<artifactId>mybatis-jpa</artifactId>
-	<version>1.1.0</version>
-</dependency>
+        <dependency>
+            <groupId>com.littlenb</groupId>
+            <artifactId>mybatis-jpa</artifactId>
+            <version>2.0.1</version>
+        </dependency>
 ```
-### spring 配置文件
+
+## 插件清单
+
++ ResultTypePlugin [![plugin](https://img.shields.io/badge/plugin-resolved-green.svg)]()
+
+### ResultTypePlugin
+
+对于常规的结果映射,不需要再构建ResultMap,ResultTypePlugin增加了Mybatis对结果映射(JavaBean/POJO)中JPA注解的处理。
+
+映射规则：
+
++ 名称匹配默认为驼峰(Java Field)与下划线(SQL Column)
+
++ 使用@Column注解中name属性指定SQL Column
+
+类型处理:
+
++ Boolean-->BooleanTypeHandler
+
++ Enum默认为EnumTypeHandler
+
++ 使用@Enumerated(EnumType.ORDINAL) 指定为 EnumOrdinalTypeHandler
+
+结果集嵌套:
+
++ 支持OneToOne
++ 支持OneToMany
+
+e.g.
+
+mybatis.xml
+
 ```xml
-<!-- 在spring-mybatis配置文件中,增加以下配置即可.详见configs/spring-mybatis.xml -->
-<!-- Mybatis JPA Mapper 所在包路径 -->
-    <bean class="com.mybatis.jpa.core.PersistentEnhancerScaner">
-        <property name="mapperPackage" value="com.svili.mapper" />
-        <property name="entityPackage" value="com.ybg.model" />
-        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
-    </bean>
+<configuration>
+    <plugins>
+		<plugin interceptor="com.mybatis.jpa.plugin.ResultTypePlugin">
+		</plugin>
+	</plugins>
+</configuration>
 ```
-### Entity示例
-```Java
+
+JavaBean
+
+```JAVA
 @Entity
-/* {@Table}非必须,若无此注解,或其name="",将类名解析为下划线风格 做为表名 */
-@Table(name = "user")
-public class User {
+public class UserArchive {// <resultMap id="xxx" type="userArchive">
 
-    /* 非持久化字段 */
-    @Transient
-    private static final long serialVersionUID = -7788405797990662048L;
-
-    /* {@Id}必须,主键标识,{@Column}非必须,若无此注解,或其name="",将字段名解析为下划线风格 做为SQL列名 */
     @Id
-    @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;// <id property="id" column="user_id" />
+                           
+    /** 默认驼峰与下划线转换 */
+    private String userName;// <result property="username" column="user_name"/>
 
-    @Column(name = "password_alias")
-    private String password;
+    /** 枚举类型 */
+    @Enumerated(EnumType.ORDINAL)
+    private SexEnum sex;// <result property="sex" column="sex" typeHandler=EnumOrdinalTypeHandler/>
 
-    /* {@Enumerated}非必须,若无此注解,按照Mybatis约定,枚举类型使用{@EnumTypeHandler}解析 */
-    @Enumerated
-    private DataStateEnum state;
-
-    private java.util.Date createTime;
+    /** 属性名与列名不一致 */
+    @Column(name = "gmt_create")
+    private Date createTime;// <result property="createTime" column="gmt_create"/>
+}// </resultMap>
 ```
-### mapper示例
-```Java
-@Repository
-@MapperDefinition(domainClass = User.class)
-/*entends MybatisBaseMapper非必须,它只是定义了公共的方法签名,便于风格的统一*/
-public interface UserMapper extends MybatisBaseMapper<User> {
 
-	String resultMap = ResultMapConstants.DEFAULT_NAMESPACE + ".User";
+mapper.xml
 
-    /* Like 的通配符需要自行添加 */
-    @StatementDefinition
-    List<User> selectByUserNameLike(String userName);
-
-    @StatementDefinition
-    List<User> selectByUserIdLessThan(Integer userId);
-
-    @StatementDefinition
-    List<User> selectByUserIdIsNull();
-
-    /*more condition or complex SQL,need yourself build*/
-    
-    /**注意,此方法的resultMap是由jpa创建的*/
-    @Select("select * from user where user_name = #{userName} and password_alias = #{password}")
-    @ResultMap(resultMap) 
-    List<User> selectComplex(Map<String, Object> args); 
-    
-    /*build with mapper.xml*/ 
-    List<User> selectComplex2(Map<String, Object> args);
-```
-### mapper.xml示例
 ```xml
-<!--  复杂的SQL建议写在xml文件中.  -->
-<mapper namespace="com.svili.mapper.UserMapper">
-	<resultMap id="BaseResultMap" type="com.svili.model.User">
-		<id column="user_id" property="userId" />
-		<result column="password_alias" property="password" />
-		<result column="state" property="state" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
-		<result column="create_time" property="createTime" />
-	</resultMap>
-	<sql id="Base_Column_List">
-		USER_ID,  PASSWORD_ALIAS, STATE, CREATE_TIME
-	</sql>
-	<select id="selectComplex2" parameterType="object" resultMap="BaseResultMap">
-		SELECT
-		<include refid="Base_Column_List" />
-		FROM user
-		WHERE user_name = #{userName} and password = #{password}
-	</select>
-
-</mapper>
+<!-- in xml,declare the resultType -->
+<select id="selectById" resultType="userArchive">
+	SELECT * FROM t_sys_user_archive WHERE user_id = #{userId}
+</select>
 ```
-### 联系方式
-QQ交流群:246912326
+
+更多示例请查看test目录代码。
