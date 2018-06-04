@@ -11,7 +11,7 @@
   <name>mybatis-jpa</name>
   <description>The plugins for mybatis, in order to provider the ability to handler jpa.
   </description>
-  <url>https://github.com/cnsvili/mybatis-jpa</url>
+  <url>https://github.com/svili365/mybatis-jpa</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -194,15 +194,15 @@
 
   <developers>
     <developer>
-      <name>svili</name>
-      <email>cnsvili@mail.com</email>
+      <name>svili365</name>
+      <email>svili365@outlook.com</email>
     </developer>
   </developers>
 
   <scm>
-    <connection>scm:git@github.com:cnsvili/mybatis-jpa.git</connection>
-    <developerConnection>scm:git@github.com:cnsvili/mybatis-jpa.git</developerConnection>
-    <url>git@github.com:cnsvili/mybatis-jpa.git</url>
+    <connection>scm:git@github.com:svili365/mybatis-jpa.git</connection>
+    <developerConnection>scm:git@github.com:svili365/mybatis-jpa.git</developerConnection>
+    <url>git@github.com:svili365/mybatis-jpa.git</url>
   </scm>
 
   <profiles>

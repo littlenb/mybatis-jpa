@@ -27,34 +27,39 @@ The plugins for mybatis, in order to provider the ability to handler jpa.
 
 ### ResultTypePlugin
 
-对于常规的结果映射,不需要再构建ResultMap,ResultTypePlugin增加了Mybatis对结果映射(JavaBean/POJO)中JPA注解的处理。
+Introduce the JPA annotation to handle result set mappings(JavaBean/POJO).
 
-映射规则：
+It means with ResultTypePlugin,no longer need to be build ResultMap.
 
-+ 名称匹配默认为驼峰(Java Field)与下划线(SQL Column)
+Mapping rules：
 
-+ 使用@Column注解中name属性指定SQL Column
++ default name mapping rule is camel(Java Field) to underline(SQL Column)
 
-类型处理:
++ to specify SQL Column,declare the property "name" in @Column annotation
+
++ declare the no mapping field with @Transient annotation
+
+TypeHandler:
 
 + Boolean-->BooleanTypeHandler
 
-+ Enum默认为EnumTypeHandler
++ Enum is default with EnumTypeHandler
 
-  使用@Enumerated(EnumType.ORDINAL) 指定为 EnumOrdinalTypeHandler
+  @Enumerated(EnumType.ORDINAL) --> EnumOrdinalTypeHandler
 
-+ Enum实现ICodeEnum接口实现自定义枚举值
++ implement ICodeEnum to achieve custom Enum value
 
-  使用@CodeEnum(CodeType.INT) 指定为 IntCodeEnumTypeHandler
+  @CodeEnum(CodeType.INT) --> IntCodeEnumTypeHandler
   
-  或@CodeEnum(CodeType.STRING) 指定为 StringCodeEnumTypeHandler
+  @CodeEnum(CodeType.STRING) --> StringCodeEnumTypeHandler
   
-  @CodeEnum 优先级 高于 @Enumerated
+  @CodeEnum priority above than @Enumerated
 
-结果集嵌套:
+nested result set:
 
-+ 支持OneToOne
-+ 支持OneToMany
++ @OneToOne
+
++ @OneToMany
 
 e.g.
 
@@ -78,18 +83,18 @@ public class UserArchive {// <resultMap id="xxx" type="userArchive">
     @Id
     private Long userId;// <id property="id" column="user_id" />
                            
-    /** 默认驼峰与下划线转换 */
+    /** default mapping rule is camel(Java Field) to underline(SQL Column) */
     private String userName;// <result property="username" column="user_name"/>
 
-    /** 枚举类型 */
+    /** enum type */
     @Enumerated(EnumType.ORDINAL)
     private SexEnum sex;// <result property="sex" column="sex" typeHandler=EnumOrdinalTypeHandler/>
     
-     /** 枚举类型,自定义值 */
+     /** enum type,custom value */
      @CodeEnum(CodeType.INT)
      private PoliticalEnum political;// <result property="political" column="political" typeHandler=IntCodeEnumTypeHandler/>
 
-    /** 属性名与列名不一致 */
+    /** java field differ from sql column in name */
     @Column(name = "gmt_create")
     private Date createTime;// <result property="createTime" column="gmt_create"/>
 }// </resultMap>
@@ -106,21 +111,27 @@ mapper.xml
 
 ### DefinitionStatementScanner
 
-注册MappedStatement,基于注解,仅支持Insert和Update。
+register MappedStatement with annotation-based,only support for Insert and Update.
 
 #### InsertDefinition:
 
-+ selective: 默认值false(处理null属性)
++ selective: default value is false(handler null of java field)
 
 #### updateDefinition:
 
-+ selective: 默认值false(处理null属性)
++ selective: default value is false(handler null of java field)
 
 + where: SQL condition
 
+### Mapping rules and TypeHandler 
+
++ if the field is no need resolve in SQL,declare the property "insertable" "updateable" in @Column.
+
++ the same as above(ResultTypePlugin rules)
+
 e.g.
 
-Spring 容器初始化完成后执行
+after Spring init
 
 ```java
 @Service
