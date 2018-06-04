@@ -33,7 +33,16 @@ It means with ResultTypePlugin,no longer need to be build ResultMap.
 
 Mapping rules：
 
-+ default name mapping rule is camel(Java Field) to underline(SQL Column)
++ default name mapping rule is the same as mybatis global config.
+
+  you can setting mapping rule in mybatis-config.xml with camel(Java Field) to underline(SQL Column)
+
+```xml
+<settings>
+    <!-- default : false -->
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+</settings>
+```
 
 + to specify SQL Column,declare the property "name" in @Column annotation
 

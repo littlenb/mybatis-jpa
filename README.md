@@ -31,7 +31,16 @@ Mybatis插件，提供Mybatis处理JPA的能力。
 
 映射规则：
 
-+ 名称匹配默认为驼峰(Java Field)与下划线(SQL Column)
++ 名称匹配默认与mybatis全局配置一致
+
+  可以在mybatis全局配置文件中，开启驼峰(Java Field)与下划线(SQL Column)的匹配规则.
+
+```xml
+<settings>
+    <!-- default : false -->
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+</settings>
+```
 
 + 使用@Column注解中name属性指定SQL Column
 
