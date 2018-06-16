@@ -2,7 +2,7 @@
 
 [![Mybatis](https://img.shields.io/badge/mybatis-3.4.x-brightgreen.svg)](https://maven-badges.herokuapp.com/maven-central/org.mybatis/mybatis)
 [![JDK 1.7](https://img.shields.io/badge/JDK-1.7-green.svg)]()
-[![maven central](https://img.shields.io/badge/version-2.1.1-brightgreen.svg)](http://search.maven.org/#artifactdetails%7Ccom.github.cnsvili%7Cmybatis-jpa%7C2.1.1%7C)
+[![maven central](https://img.shields.io/badge/version-2.1.2-brightgreen.svg)](http://search.maven.org/#artifactdetails%7Ccom.github.cnsvili%7Cmybatis-jpa%7C2.1.2%7C)
 [![APACHE 2 License](https://img.shields.io/badge/license-Apache2-blue.svg?style=flat)](LICENSE)
 
 [:book: English Documentation](README-EN.md) | :book: 中文文档
@@ -15,7 +15,7 @@ Mybatis插件，提供Mybatis处理JPA的能力。
         <dependency>
             <groupId>com.littlenb</groupId>
             <artifactId>mybatis-jpa</artifactId>
-            <version>2.1.1</version>
+            <version>2.1.2</version>
         </dependency>
 ```
 
