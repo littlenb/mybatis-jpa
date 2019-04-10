@@ -7,5 +7,5 @@ import java.lang.reflect.Method;
  **/
 public interface StatementBuildable {
 
-  void parseStatement(Method method);
+  void parseStatement(Method method, Class<?> targetClass);
 }

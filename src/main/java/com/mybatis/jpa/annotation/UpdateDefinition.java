@@ -16,5 +16,8 @@ public @interface UpdateDefinition {
 
   boolean selective() default false;
 
-  String where();
+  /**
+   * default id = #{id}
+   */
+  String where() default "id = #{id}";
 }

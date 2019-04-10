@@ -14,7 +14,7 @@ import java.util.List;
 public class User {
 
   @Id
-  private Long userId;
+  private Long id;
 
   /**
    * 用户识别码,唯一
@@ -51,12 +51,12 @@ public class User {
   @OneToMany(mappedBy = "user_id")
   private List<UserRoleRelation> roles;
 
-  public Long getUserId() {
-    return userId;
+  public Long getId() {
+    return id;
   }
 
-  public void setUserId(Long userId) {
-    this.userId = userId;
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public String getUniCode() {

@@ -10,18 +10,18 @@ import javax.persistence.Table;
 public class UserRoleRelation {
 
   @Id
-  private Long relationId;
+  private Long id;
 
   private Long userId;
 
   private Long roleId;
 
-  public Long getRelationId() {
-    return relationId;
+  public Long getId() {
+    return id;
   }
 
-  public void setRelationId(Long relationId) {
-    this.relationId = relationId;
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public Long getUserId() {

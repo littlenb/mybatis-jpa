@@ -14,6 +14,7 @@ import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.mapping.StatementType;
 import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.session.Configuration;
+import sun.reflect.generics.reflectiveObjects.TypeVariableImpl;
 
 /**
  * @author svili
@@ -35,46 +36,50 @@ public class DefinitionStatementBuilder implements StatementBuildable {
   }
 
   @Override
-  public void parseStatement(Method method) {
+  public void parseStatement(Method method, Class<?> targetClass) {
+    String resourceName = targetClass.toString();
 
-    if (!configuration.isResourceLoaded(method.getDeclaringClass().toString())) {
-      configuration.addLoadedResource(method.getDeclaringClass().toString());
+    if (!configuration.isResourceLoaded(resourceName)) {
+      configuration.addLoadedResource(resourceName);
     }
+    String targetClassName = targetClass.getName();
 
     LanguageDriver languageDriver = configuration.getDefaultScriptingLanuageInstance();
     SqlSource sqlSource = languageDriver
-        .createSqlSource(configuration, parseSQL(method), Object.class);
-    String statementId = method.getDeclaringClass().getName() + "." + method.getName();
+        .createSqlSource(configuration, parseSQL(method, targetClass), Object.class);
+    String statementId = targetClassName + "." + method.getName();
     MappedStatement.Builder builder = new MappedStatement.Builder(configuration, statementId,
         sqlSource, recognizeSqlCommandType(method));
 
-    String resource = recognizeResource(method);
+    String resource = recognizeResource(targetClassName);
     builder.resource(resource).lang(languageDriver).statementType(StatementType.PREPARED);
     MappedStatement statement = builder.build();
     configuration.addMappedStatement(statement);
   }
 
-  protected String parseSQL(Method method) {
+  protected String parseSQL(Method method, Class<?> targetClass) {
     Annotation annotation = recognizeDefinitionAnnotation(method);
     AnnotationAdaptable adaptor = recognizeAdaptor(method);
 
     AnnotationProperty annotationProperty = adaptor.context(annotation);
     SqlTemplate sqlTemplate = adaptor.sqlTemplate(annotation);
 
-    Class<?> type = recognizeEntityType(method);
+    Class<?> type = recognizeEntityType(method, targetClass);
 
     String sql = sqlTemplate.parseSQL(type);
 
-    if (annotationProperty.where() != null) {
-      sql = sql + " where " + annotationProperty.where();
+    if (SqlCommandType.UPDATE.equals(adaptor.sqlCommandType()) || SqlCommandType.DELETE
+        .equals(adaptor.sqlCommandType())) {
+      if (!"".equals(annotationProperty.where())) {
+        sql = sql + " where " + annotationProperty.where();
+      }
     }
 
     return "<script> " + sql + "</script>";
   }
 
-  protected String recognizeResource(Method method) {
-    Class<?> mapper = method.getDeclaringClass();
-    return mapper.getName().replace(".", "/") + ".java (best guess)";
+  protected String recognizeResource(String targetClassName) {
+    return targetClassName.replace(".", "/") + ".java (best guess)";
   }
 
   protected SqlCommandType recognizeSqlCommandType(Method method) {
@@ -96,11 +101,20 @@ public class DefinitionStatementBuilder implements StatementBuildable {
     return null;
   }
 
-  protected Class<?> recognizeEntityType(Method method) {
-    Class<?> actualType;
-
+  protected Class<?> recognizeEntityType(Method method, Class<?> targetClass) {
     Type[] genericTypes = method.getGenericParameterTypes();
     Type genericType = genericTypes[0];
+    if (genericType instanceof TypeVariableImpl) {
+      // interface XXXMapper extends IBaseMapper<T>
+      Type[] interfaces = targetClass.getGenericInterfaces();
+      for (Type type : interfaces) {
+        if (type instanceof ParameterizedType) {
+          ParameterizedType pt = (ParameterizedType) type;
+          return (Class<?>) pt.getActualTypeArguments()[0];
+        }
+      }
+    }
+    Class<?> actualType;
     if (genericType instanceof ParameterizedType) {
       ParameterizedType pt = (ParameterizedType) genericType;
       actualType = (Class<?>) pt.getActualTypeArguments()[0];

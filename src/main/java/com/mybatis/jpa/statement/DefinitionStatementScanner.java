@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.builder.IncompleteElementException;
 import org.apache.ibatis.builder.annotation.MethodResolver;
 import org.apache.ibatis.session.Configuration;
@@ -30,19 +31,21 @@ public class DefinitionStatementScanner {
   private Set<Class<? extends Annotation>> registryAnnotationSet = new HashSet<>();
 
   public void scan() {
-
     for (String basePackage : basePackages) {
-
       Reflections reflections = new Reflections(basePackage, new TypeAnnotationsScanner(),
           new SubTypesScanner(), new MethodAnnotationsScanner());
       Set<Class<? extends Annotation>> registryAnnotation = registryAnnotationSet;
-
-      for (Class<? extends Annotation> annotation : registryAnnotation) {
-
-        Set<Method> methods = reflections.getMethodsAnnotatedWith(annotation);
-
+      Set<Class<?>> mappers = reflections.getTypesAnnotatedWith(Mapper.class);
+      for (Class<?> mapperClass : mappers) {
+        Method[] methods = mapperClass.getMethods();
         for (Method method : methods) {
-          statementBuilder.parseStatement(method);
+          Annotation[] annotations = method.getDeclaredAnnotations();
+          for (Annotation annotation : annotations) {
+            if (registryAnnotation.contains(annotation.annotationType())) {
+              statementBuilder.parseStatement(method, mapperClass);
+            }
+          }
+
         }
       }
     }

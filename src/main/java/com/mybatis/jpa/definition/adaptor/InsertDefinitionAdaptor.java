@@ -3,9 +3,8 @@ package com.mybatis.jpa.definition.adaptor;
 import com.mybatis.jpa.annotation.InsertDefinition;
 import com.mybatis.jpa.definition.property.AnnotationProperty;
 import com.mybatis.jpa.definition.property.InsertDefinitionProperty;
-import com.mybatis.jpa.definition.template.InsertSelectiveSqlTemplate;
-import com.mybatis.jpa.definition.template.InsertSqlTemplate;
 import com.mybatis.jpa.definition.template.SqlTemplate;
+import com.mybatis.jpa.definition.template.SqlTemplateHolder;
 import java.lang.annotation.Annotation;
 import org.apache.ibatis.mapping.SqlCommandType;
 
@@ -28,9 +27,9 @@ public class InsertDefinitionAdaptor implements AnnotationAdaptable {
     if (annotation instanceof InsertDefinition) {
       InsertDefinition insert = (InsertDefinition) annotation;
       if (insert.selective()) {
-        return new InsertSelectiveSqlTemplate();
+        return SqlTemplateHolder.insertSelectiveSqlTemplate;
       } else {
-        return new InsertSqlTemplate();
+        return SqlTemplateHolder.insertSqlTemplate;
       }
     }
     return null;

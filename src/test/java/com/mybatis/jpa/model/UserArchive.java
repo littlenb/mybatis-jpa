@@ -20,7 +20,7 @@ import javax.persistence.Table;
 public class UserArchive {
 
   @Id
-  private Long userId;
+  private Long id;
 
   /**
    * 姓名
@@ -76,12 +76,12 @@ public class UserArchive {
   @Column(name = "gmt_modify")
   private Date modifyTime;
 
-  public Long getUserId() {
-    return userId;
+  public Long getId() {
+    return id;
   }
 
-  public void setUserId(Long userId) {
-    this.userId = userId;
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public String getUserName() {

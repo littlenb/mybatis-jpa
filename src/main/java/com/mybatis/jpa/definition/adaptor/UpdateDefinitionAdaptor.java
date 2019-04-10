@@ -4,8 +4,7 @@ import com.mybatis.jpa.annotation.UpdateDefinition;
 import com.mybatis.jpa.definition.property.AnnotationProperty;
 import com.mybatis.jpa.definition.property.UpdateDefinitionProperty;
 import com.mybatis.jpa.definition.template.SqlTemplate;
-import com.mybatis.jpa.definition.template.UpdateSelectiveSqlTemplate;
-import com.mybatis.jpa.definition.template.UpdateSqlTemplate;
+import com.mybatis.jpa.definition.template.SqlTemplateHolder;
 import java.lang.annotation.Annotation;
 import org.apache.ibatis.mapping.SqlCommandType;
 
@@ -28,9 +27,9 @@ public class UpdateDefinitionAdaptor implements AnnotationAdaptable {
     if (annotation instanceof UpdateDefinition) {
       UpdateDefinition update = (UpdateDefinition) annotation;
       if (update.selective()) {
-        return new UpdateSelectiveSqlTemplate();
+        return SqlTemplateHolder.updateSelectiveSqlTemplate;
       } else {
-        return new UpdateSqlTemplate();
+        return SqlTemplateHolder.updateSqlTemplate;
       }
     }
     return null;

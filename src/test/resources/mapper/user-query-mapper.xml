@@ -4,8 +4,8 @@
 
     <select id="selectUnion" resultType="user">
 		SELECT t.*,a.*,r.* FROM t_sys_user t
-		LEFT JOIN t_sys_user_archive a ON t.user_id = a.user_id
-		LEFT JOIN t_relation_user_role r ON t.user_id = r.user_id
-		WHERE t.user_id = a.user_id and t.user_id = #{userId}
+		LEFT JOIN t_sys_user_archive a ON t.id = a.id
+		LEFT JOIN t_relation_user_role r ON t.id = r.user_id
+		WHERE t.id = #{id}
 	</select>
 </mapper>
