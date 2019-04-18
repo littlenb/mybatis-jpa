@@ -167,6 +167,38 @@ public interface UserUpdateMapper {
 }
 ```
 
+Best Advice
+
+```java
+/**
+* Definition a Generic Interface as BaseMapper 
+*/
+public interface IBaseMapper<T> {
+
+  @InsertDefinition
+  int insert(T t);
+
+  @InsertDefinition(selective = true)
+  int insertSelective(T t);
+
+  @UpdateDefinition
+  int updateById(T t);
+
+  @UpdateDefinition(selective = true)
+  int updateSelectiveById(T t);
+
+}
+
+/**
+* extends BaseMapper
+*/
+@Mapper
+@Repository
+public interface InheritUserMapper extends IBaseMapper<User> {
+
+}
+```
+
 更多示例请查看test目录代码。
 
 ## 联系方式
