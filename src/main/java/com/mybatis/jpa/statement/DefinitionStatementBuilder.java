@@ -4,10 +4,14 @@ import com.mybatis.jpa.definition.AnnotationDefinitionRegistry;
 import com.mybatis.jpa.definition.adaptor.AnnotationAdaptable;
 import com.mybatis.jpa.definition.property.AnnotationProperty;
 import com.mybatis.jpa.definition.template.SqlTemplate;
+import com.mybatis.jpa.util.PersistentUtil;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import javax.persistence.GeneratedValue;
+import org.apache.ibatis.executor.keygen.Jdbc3KeyGenerator;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.mapping.SqlSource;
@@ -48,11 +52,19 @@ public class DefinitionStatementBuilder implements StatementBuildable {
     SqlSource sqlSource = languageDriver
         .createSqlSource(configuration, parseSQL(method, targetClass), Object.class);
     String statementId = targetClassName + "." + method.getName();
+    SqlCommandType sqlCommandType = recognizeSqlCommandType(method);
     MappedStatement.Builder builder = new MappedStatement.Builder(configuration, statementId,
-        sqlSource, recognizeSqlCommandType(method));
-
+        sqlSource, sqlCommandType);
     String resource = recognizeResource(targetClassName);
     builder.resource(resource).lang(languageDriver).statementType(StatementType.PREPARED);
+    // keyGenerator
+    if(SqlCommandType.INSERT.equals(sqlCommandType)){
+      Class<?> type = recognizeEntityType(method, targetClass);
+      Field id = PersistentUtil.getIdField(type);
+      if (id.isAnnotationPresent(GeneratedValue.class)) {
+        builder.keyGenerator(new Jdbc3KeyGenerator()).keyProperty(id.getName()).keyColumn(PersistentUtil.getColumnName(id));
+      }
+    }
     MappedStatement statement = builder.build();
     configuration.addMappedStatement(statement);
   }

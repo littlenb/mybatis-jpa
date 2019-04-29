@@ -1,5 +1,6 @@
 package com.mybatis.jpa.model;
 
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -10,6 +11,7 @@ import javax.persistence.Table;
 public class UserRoleRelation {
 
   @Id
+  @GeneratedValue
   private Long id;
 
   private Long userId;
