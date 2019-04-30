@@ -1,7 +1,7 @@
 package com.mybatis.jpa.util;
 
 /**
- * @author svili
+ * @author sway.li
  */
 public class ColumnNameUtil {
 

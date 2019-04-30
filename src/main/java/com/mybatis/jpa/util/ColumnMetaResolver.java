@@ -17,7 +17,7 @@ import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 
 /**
- * @author svili
+ * @author sway.li
  **/
 public class ColumnMetaResolver {
 

@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 /***
  *
- * @author svili
+ * @author sway.li
  *
  */
 @Table(name = "t_sys_user_archive")

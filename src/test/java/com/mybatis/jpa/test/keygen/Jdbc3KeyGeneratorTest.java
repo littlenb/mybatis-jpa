@@ -1,4 +1,4 @@
-package com.mybatis.jpa.test.keygenerator;
+package com.mybatis.jpa.test.keygen;
 
 import com.mybatis.jpa.mapper.UserRoleRelationMapper;
 import com.mybatis.jpa.model.UserRoleRelation;
@@ -7,9 +7,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * @author svili
+ * @author sway.li
  **/
-public class KeyGeneratorTest extends AbstractTest {
+public class Jdbc3KeyGeneratorTest extends AbstractTest {
 
   @Autowired
   private UserRoleRelationMapper userRoleRelationMapper;

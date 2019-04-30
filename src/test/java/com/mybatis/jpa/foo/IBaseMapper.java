@@ -4,7 +4,7 @@ import com.mybatis.jpa.annotation.InsertDefinition;
 import com.mybatis.jpa.annotation.UpdateDefinition;
 
 /**
- * @author svili
+ * @author sway.li
  **/
 public interface IBaseMapper<T> {
 

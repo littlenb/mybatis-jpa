@@ -4,7 +4,7 @@ import com.mybatis.jpa.type.ICodeEnum;
 
 /***
  *
- * @author svili
+ * @author sway.li
  *
  */
 public enum SexEnum implements ICodeEnum<Integer> {

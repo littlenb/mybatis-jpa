@@ -10,7 +10,7 @@ import org.apache.ibatis.type.MappedJdbcTypes;
 import org.apache.ibatis.type.MappedTypes;
 
 /**
- * @author svili
+ * @author sway.li
  **/
 @MappedJdbcTypes({JdbcType.INTEGER, JdbcType.TINYINT})
 @MappedTypes({ICodeEnum.class})

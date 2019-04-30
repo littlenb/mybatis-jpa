@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 /**
  * The priority is higher than <code>Enumerated</code>
  *
- * @author svili
+ * @author sway.li
  **/
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

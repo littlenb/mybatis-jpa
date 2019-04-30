@@ -1,7 +1,7 @@
 package com.mybatis.jpa.type;
 
 /**
- * @author svili
+ * @author sway.li
  **/
 public enum CodeType {
 

@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author svili
+ * @author sway.li
  **/
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

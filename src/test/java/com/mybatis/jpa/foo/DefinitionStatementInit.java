@@ -1,17 +1,19 @@
 package com.mybatis.jpa.foo;
 
-import com.mybatis.jpa.statement.DefinitionStatementBuilder;
-import com.mybatis.jpa.statement.StatementBuildable;
+import com.mybatis.jpa.keygen.IdGenerator;
+import com.mybatis.jpa.keygen.IdentityKeyGenerator;
+import com.mybatis.jpa.statement.DefinitionStatementFactory;
 import com.mybatis.jpa.statement.DefinitionStatementScanner;
+import com.mybatis.jpa.statement.StatementFactory;
+import javax.annotation.PostConstruct;
+import org.apache.ibatis.executor.keygen.KeyGenerator;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-
 /**
- * @author svili
+ * @author sway.li
  **/
 @Service
 public class DefinitionStatementInit {
@@ -22,11 +24,13 @@ public class DefinitionStatementInit {
   @PostConstruct
   public void init() {
     Configuration configuration = sqlSessionFactory.getConfiguration();
-    StatementBuildable statementBuildable = new DefinitionStatementBuilder(configuration);
-    DefinitionStatementScanner.Builder builder = new DefinitionStatementScanner.Builder();
-    DefinitionStatementScanner definitionStatementScanner = builder.configuration(configuration)
+    KeyGenerator keyGenerator = new IdentityKeyGenerator(new MyIdGenerator());
+    configuration.addKeyGenerator("defaultKeyGenerator",keyGenerator);
+    StatementFactory statementFactory = new DefinitionStatementFactory(configuration);
+    DefinitionStatementScanner definitionStatementScanner = new DefinitionStatementScanner.Builder()
+        .configuration(configuration)
         .basePackages(new String[]{"com.mybatis.jpa.mapper"})
-        .statementBuilder(statementBuildable).build();
+        .statementFactory(statementFactory).build();
     definitionStatementScanner.scan();
   }
 }

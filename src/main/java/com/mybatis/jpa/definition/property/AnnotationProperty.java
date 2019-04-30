@@ -1,7 +1,7 @@
 package com.mybatis.jpa.definition.property;
 
 /**
- * @author svili
+ * @author sway.li
  **/
 public interface AnnotationProperty {
 

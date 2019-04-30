@@ -3,7 +3,7 @@ package com.mybatis.jpa.definition.property;
 import com.mybatis.jpa.annotation.InsertDefinition;
 
 /**
- * @author svili
+ * @author sway.li
  **/
 public class InsertDefinitionProperty implements AnnotationProperty {
 

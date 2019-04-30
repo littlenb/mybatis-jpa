@@ -5,7 +5,7 @@ import com.mybatis.jpa.util.PersistentUtil;
 import java.lang.reflect.Field;
 
 /**
- * @author svili
+ * @author sway.li
  **/
 public class InsertSelectiveSqlTemplate implements SqlTemplate {
 

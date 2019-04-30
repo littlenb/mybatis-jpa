@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * <code>ICodeEnum</code>适配器
  *
- * @author svili
+ * @author sway.li
  * @see ICodeEnum
  **/
 public class CodeEnumAdapter {

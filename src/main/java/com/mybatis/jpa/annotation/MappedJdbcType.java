@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 import org.apache.ibatis.type.JdbcType;
 
 /**
- * @author svili
+ * @author sway.li
  **/
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

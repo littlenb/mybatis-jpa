@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * @author svili
+ * @author sway.li
  **/
 @Table(name = "t_relation_user_role")
 public class UserRoleRelation {

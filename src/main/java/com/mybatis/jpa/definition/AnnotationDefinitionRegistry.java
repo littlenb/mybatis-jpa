@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author svili
+ * @author sway.li
  **/
 public class AnnotationDefinitionRegistry {
 

@@ -11,7 +11,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import org.apache.ibatis.executor.keygen.Jdbc3KeyGenerator;
+import org.apache.ibatis.executor.keygen.KeyGenerator;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.mapping.SqlSource;
@@ -21,19 +23,19 @@ import org.apache.ibatis.session.Configuration;
 import sun.reflect.generics.reflectiveObjects.TypeVariableImpl;
 
 /**
- * @author svili
+ * @author sway.li
  **/
-public class DefinitionStatementBuilder implements StatementBuildable {
+public class DefinitionStatementFactory implements StatementFactory {
 
   protected Configuration configuration;
 
   protected AnnotationDefinitionRegistry definitionRegistry;
 
-  public DefinitionStatementBuilder(Configuration configuration) {
+  public DefinitionStatementFactory(Configuration configuration) {
     this(configuration, new AnnotationDefinitionRegistry());
   }
 
-  public DefinitionStatementBuilder(Configuration configuration,
+  public DefinitionStatementFactory(Configuration configuration,
       AnnotationDefinitionRegistry definitionRegistry) {
     this.configuration = configuration;
     this.definitionRegistry = definitionRegistry;
@@ -57,12 +59,27 @@ public class DefinitionStatementBuilder implements StatementBuildable {
         sqlSource, sqlCommandType);
     String resource = recognizeResource(targetClassName);
     builder.resource(resource).lang(languageDriver).statementType(StatementType.PREPARED);
+
     // keyGenerator
-    if(SqlCommandType.INSERT.equals(sqlCommandType)){
+    if (SqlCommandType.INSERT.equals(sqlCommandType)) {
       Class<?> type = recognizeEntityType(method, targetClass);
       Field id = PersistentUtil.getIdField(type);
       if (id.isAnnotationPresent(GeneratedValue.class)) {
-        builder.keyGenerator(new Jdbc3KeyGenerator()).keyProperty(id.getName()).keyColumn(PersistentUtil.getColumnName(id));
+        GeneratedValue generatedValue = id.getAnnotation(GeneratedValue.class);
+        if (GenerationType.AUTO.equals(generatedValue.strategy())) {
+          builder.keyGenerator(new Jdbc3KeyGenerator()).keyProperty(id.getName())
+              .keyColumn(PersistentUtil.getColumnName(id));
+        } else if (GenerationType.IDENTITY.equals(generatedValue.strategy())) {
+          String generator = "".equals(generatedValue.generator()) ? "defaultKeyGenerator"
+              : generatedValue.generator();
+          KeyGenerator keyGenerator = configuration.getKeyGenerator(generator);
+          if (keyGenerator == null) {
+            throw new IllegalArgumentException(
+                "mybatis jpa init failure , can not find " + generator + " in configuration.");
+          }
+          builder.keyGenerator(keyGenerator).keyProperty(id.getName())
+              .keyColumn(PersistentUtil.getColumnName(id));
+        }
       }
     }
     MappedStatement statement = builder.build();

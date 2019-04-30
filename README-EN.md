@@ -152,10 +152,10 @@ public class DefinitionStatementInit {
     @PostConstruct
     public void init() {
         Configuration configuration = sqlSessionFactory.getConfiguration();
-        StatementBuildable statementBuildable = new DefinitionStatementBuilder(configuration);
+        StatementBuildable statementFactory = new DefinitionStatementBuilder(configuration);
         DefinitionStatementScanner.Builder builder = new DefinitionStatementScanner.Builder();
         DefinitionStatementScanner definitionStatementScanner = builder.configuration(configuration).basePackages(new String[]{"com.mybatis.jpa.mapper"})
-                .statementBuilder(statementBuildable).build();
+                .statementBuilder(statementFactory).build();
         definitionStatementScanner.scan();
     }
 }

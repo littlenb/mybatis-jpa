@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 /**
- * @author svili
+ * @author sway.li
  */
 public class PersistentUtil {
 

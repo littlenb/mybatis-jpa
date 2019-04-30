@@ -3,7 +3,7 @@ package com.mybatis.jpa.definition.property;
 import com.mybatis.jpa.annotation.UpdateDefinition;
 
 /**
- * @author svili
+ * @author sway.li
  **/
 public class UpdateDefinitionProperty implements AnnotationProperty {
 

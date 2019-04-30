@@ -9,7 +9,7 @@ import java.lang.annotation.Annotation;
 import org.apache.ibatis.mapping.SqlCommandType;
 
 /**
- * @author svili
+ * @author sway.li
  **/
 public class UpdateDefinitionAdaptor implements AnnotationAdaptable {
 

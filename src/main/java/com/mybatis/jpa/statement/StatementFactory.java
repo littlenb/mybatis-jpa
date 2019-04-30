@@ -3,9 +3,9 @@ package com.mybatis.jpa.statement;
 import java.lang.reflect.Method;
 
 /**
- * @author svili
+ * @author sway.li
  **/
-public interface StatementBuildable {
+public interface StatementFactory {
 
   void parseStatement(Method method, Class<?> targetClass);
 }

@@ -6,7 +6,7 @@ import java.lang.reflect.Field;
 import org.apache.ibatis.jdbc.SQL;
 
 /**
- * @author svili
+ * @author sway.li
  **/
 public class InsertSqlTemplate implements SqlTemplate {
 

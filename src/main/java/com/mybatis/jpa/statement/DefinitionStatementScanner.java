@@ -18,7 +18,7 @@ import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 
 /**
- * @author svili
+ * @author sway.li
  **/
 public class DefinitionStatementScanner {
 
@@ -26,7 +26,7 @@ public class DefinitionStatementScanner {
 
   private String[] basePackages;
 
-  private StatementBuildable statementBuilder;
+  private StatementFactory statementFactory;
 
   private Set<Class<? extends Annotation>> registryAnnotationSet = new HashSet<>();
 
@@ -42,7 +42,7 @@ public class DefinitionStatementScanner {
           Annotation[] annotations = method.getDeclaredAnnotations();
           for (Annotation annotation : annotations) {
             if (registryAnnotation.contains(annotation.annotationType())) {
-              statementBuilder.parseStatement(method, mapperClass);
+              statementFactory.parseStatement(method, mapperClass);
             }
           }
 
@@ -86,8 +86,8 @@ public class DefinitionStatementScanner {
       return this;
     }
 
-    public Builder statementBuilder(StatementBuildable statementBuilder) {
-      this.instance.statementBuilder = statementBuilder;
+    public Builder statementFactory(StatementFactory statementFactory) {
+      this.instance.statementFactory = statementFactory;
       return this;
     }
 

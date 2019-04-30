@@ -1,7 +1,7 @@
 package com.mybatis.jpa.definition.template;
 
 /**
- * @author svili
+ * @author sway.li
  **/
 public interface SqlTemplate {
 

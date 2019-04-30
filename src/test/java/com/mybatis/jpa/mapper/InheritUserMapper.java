@@ -6,10 +6,10 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 /**
- * @author svili
+ * @author sway.li
  **/
 @Mapper
 @Repository
-public interface InheritUserUpdateMapper extends IBaseMapper<User> {
+public interface InheritUserMapper extends IBaseMapper<User> {
 
 }

@@ -7,28 +7,12 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * @author svili
+ * @author sway.li
  **/
 public class UpdateTest extends AbstractTest {
 
   @Autowired
   private UserUpdateMapper userUpdateMapper;
-
-  @Test
-  public void insert() {
-    User user = new User();
-    user.setId(118299928123543554L);
-    user.setPassword("12345");
-    userUpdateMapper.insert(user);
-  }
-
-  @Test
-  public void insertSelective() {
-    User user = new User();
-    user.setId(118299928123543555L);
-    user.setPassword("12345");
-    userUpdateMapper.insertSelective(user);
-  }
 
   @Test
   public void update() {
