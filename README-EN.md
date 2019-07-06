@@ -2,7 +2,7 @@
 
 [![Mybatis](https://img.shields.io/badge/mybatis-3.4.x-brightgreen.svg)](https://maven-badges.herokuapp.com/maven-central/org.mybatis/mybatis)
 [![JDK 1.7](https://img.shields.io/badge/JDK-1.7-green.svg)]()
-[![maven central](https://img.shields.io/badge/version-2.1.3-brightgreen.svg)](http://search.maven.org/#artifactdetails%7Ccom.github.cnsvili%7Cmybatis-jpa%7C2.1.3%7C)
+[![maven central](https://img.shields.io/badge/version-2.2.0-brightgreen.svg)](http://search.maven.org/#artifactdetails%7Ccom.github.cnsvili%7Cmybatis-jpa%7C2.1.3%7C)
 [![APACHE 2 License](https://img.shields.io/badge/license-Apache2-blue.svg?style=flat)](LICENSE)
 
 :book: English Documentation | [:book: 中文文档](README.md)
@@ -15,7 +15,7 @@ The plugins for mybatis, in order to provider the ability to handler jpa.
         <dependency>
             <groupId>com.littlenb</groupId>
             <artifactId>mybatis-jpa</artifactId>
-            <version>2.1.3</version>
+            <version>2.2.0</version>
         </dependency>
 ```
 
@@ -77,7 +77,7 @@ mybatis.xml
 ```xml
 <configuration>
     <plugins>
-		<plugin interceptor="com.mybatis.jpa.plugin.ResultTypePlugin">
+		<plugin interceptor="com.littlenb.mybatisjpa.rs.ResultTypePlugin">
 		</plugin>
 	</plugins>
 </configuration>
@@ -143,21 +143,23 @@ e.g.
 after Spring init
 
 ```java
-@Service
-public class DefinitionStatementInit {
+@Component
+public class AnnotationStatementInit {
 
-    @Autowired
-    private SqlSessionFactory sqlSessionFactory;
+  @Autowired
+  private SqlSessionFactory sqlSessionFactory;
 
-    @PostConstruct
-    public void init() {
-        Configuration configuration = sqlSessionFactory.getConfiguration();
-        StatementBuildable statementFactory = new DefinitionStatementBuilder(configuration);
-        DefinitionStatementScanner.Builder builder = new DefinitionStatementScanner.Builder();
-        DefinitionStatementScanner definitionStatementScanner = builder.configuration(configuration).basePackages(new String[]{"com.mybatis.jpa.mapper"})
-                .statementBuilder(statementFactory).build();
-        definitionStatementScanner.scan();
-    }
+  @PostConstruct
+  public void init() {
+    Configuration configuration = sqlSessionFactory.getConfiguration();
+    KeyGenerator keyGenerator = new IdentityKeyGenerator(new MyIdGenerator());
+    configuration.addKeyGenerator(Constant.DEFAULT_KEY_GENERATOR, keyGenerator);
+    AnnotationStatementScanner annotationStatementScanner = new AnnotationStatementScanner.Builder()
+        .configuration(configuration)
+        .basePackages(new String[]{"com.littlenb.mybatisjpa.demo.mapper"})
+        .annotationStatementRegistry(AnnotationStatementRegistry.getDefaultRegistry()).build();
+    annotationStatementScanner.scan();
+  }
 }
 ```
 
@@ -168,10 +170,10 @@ Mapper
 @Repository
 public interface UserUpdateMapper {
 
-    @InsertDefinition(selective = true)
+    @InsertDefinition(strategy = SelectorStrategy.IGNORE_NULL)
     int insert(User user);
 
-    @UpdateDefinition(selective = true, where = " id = #{id}")
+    @UpdateDefinition(strategy = SelectorStrategy.IGNORE_NULL, where = " id = #{id}")
     int updateById(User user);
 }
 ```
@@ -184,17 +186,23 @@ Best Advice
 */
 public interface IBaseMapper<T> {
 
-  @InsertDefinition
-  int insert(T t);
-
-  @InsertDefinition(selective = true)
-  int insertSelective(T t);
-
-  @UpdateDefinition
-  int updateById(T t);
-
-  @UpdateDefinition(selective = true)
-  int updateSelectiveById(T t);
+    @InsertDefinition
+    int insert(T t);
+  
+    @InsertDefinition(strategy = SelectorStrategy.IGNORE_NULL)
+    int insertIgnoreNull(T t);
+  
+    @InsertDefinition(strategy = SelectorStrategy.CERTAIN)
+    int insertCertain(Certainty<T> certainty);
+  
+    @UpdateDefinition
+    int updateById(T t);
+  
+    @UpdateDefinition(strategy = SelectorStrategy.IGNORE_NULL)
+    int updateByIdIgnoreNull(T t);
+  
+    @UpdateDefinition(strategy = SelectorStrategy.CERTAIN, where = " id = #{entity.id}")
+    int updateByIdCertain(Certainty<T> certainty);
 
 }
 
@@ -203,7 +211,7 @@ public interface IBaseMapper<T> {
 */
 @Mapper
 @Repository
-public interface InheritUserMapper extends IBaseMapper<User> {
+public interface UserMapper extends IBaseMapper<User> {
 
 }
 ```
