@@ -63,8 +63,7 @@ public class ResultMapParser {
       // java field name
       String property = field.getName();
       // sql column name
-      String column = PersistentUtil
-          .getColumnName(field, configuration.isMapUnderscoreToCamelCase());
+      String column = PersistentUtil.getColumnName(field);
       Class<?> javaType = field.getType();
 
       //resultMap is not need jdbcType

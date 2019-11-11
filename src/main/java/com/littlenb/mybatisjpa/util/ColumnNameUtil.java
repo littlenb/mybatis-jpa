@@ -20,7 +20,7 @@ public class ColumnNameUtil {
       }
       result.append(text.substring(i, i + 1));
     }
-    return result.toString().toLowerCase();
+    return result.toString();
   }
 
   /**

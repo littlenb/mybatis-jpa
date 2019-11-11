@@ -14,4 +14,10 @@ public interface Constant {
 
   String CERTAINTY_ENTITY_KEY = "entity";
 
+  int DEFAULT_CASE_MODE =0;
+
+  int UPPER_CASE_MODE = 1;
+
+  int LOWER_CASE_MODE = 2;
+
 }
