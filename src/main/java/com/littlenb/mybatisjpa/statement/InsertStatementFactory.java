@@ -2,13 +2,16 @@ package com.littlenb.mybatisjpa.statement;
 
 import com.littlenb.mybatisjpa.annotation.InsertDefinition;
 import com.littlenb.mybatisjpa.support.Constant;
-import com.littlenb.mybatisjpa.support.template.InsertIgnoreNullSqlTemplate;
+import com.littlenb.mybatisjpa.support.template.InsertBatchSqlTemplate;
 import com.littlenb.mybatisjpa.support.template.InsertCertainSqlTemplate;
+import com.littlenb.mybatisjpa.support.template.InsertIgnoreNullSqlTemplate;
 import com.littlenb.mybatisjpa.support.template.InsertSqlTemplate;
 import com.littlenb.mybatisjpa.type.SelectorStrategy;
+import com.littlenb.mybatisjpa.util.FieldReflectUtil;
 import com.littlenb.mybatisjpa.util.PersistentUtil;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.List;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import org.apache.ibatis.executor.keygen.Jdbc3KeyGenerator;
@@ -48,27 +51,28 @@ public class InsertStatementFactory extends AbstractStatementFactory {
         .statementType(StatementType.PREPARED);
 
     // keyGenerator
-    Field id = PersistentUtil.getIdField(type);
-    String keyProperty = id.getName();
-    if (SelectorStrategy.CERTAIN.equals(recognizeStrategy(method))) {
-      keyProperty = Constant.CERTAINTY_ENTITY_KEY + "." + keyProperty;
-    }
-    if (id.isAnnotationPresent(GeneratedValue.class)) {
-      GeneratedValue generatedValue = id.getAnnotation(GeneratedValue.class);
-      if (GenerationType.AUTO.equals(generatedValue.strategy())) {
-        builder.keyGenerator(new Jdbc3KeyGenerator()).keyProperty(keyProperty)
-            .keyColumn(PersistentUtil.getColumnName(id));
-      } else if (GenerationType.IDENTITY.equals(generatedValue.strategy())) {
-        String generator = "".equals(generatedValue.generator()) ? Constant.DEFAULT_KEY_GENERATOR
-            : generatedValue.generator();
-        KeyGenerator keyGenerator = configuration.getKeyGenerator(generator);
-        if (keyGenerator == null) {
-          throw new IllegalArgumentException(
-              "mybatis mybatisjpa init failure , can not find '" + generator
-                  + "' in configuration.");
+    List<Field> fields = FieldReflectUtil.findFields(type, GeneratedValue.class);
+    for (Field generatedField : fields) {
+      String keyProperty = generatedField.getName();
+      if (SelectorStrategy.CERTAIN.equals(recognizeStrategy(method))) {
+        keyProperty = Constant.CERTAINTY_ENTITY_KEY + "." + keyProperty;
+      }
+      if (generatedField.isAnnotationPresent(GeneratedValue.class)) {
+        GeneratedValue generatedValue = generatedField.getAnnotation(GeneratedValue.class);
+        if (GenerationType.AUTO.equals(generatedValue.strategy())) {
+          builder.keyGenerator(new Jdbc3KeyGenerator()).keyProperty(keyProperty)
+              .keyColumn(PersistentUtil.getColumnName(generatedField));
+        } else if (GenerationType.IDENTITY.equals(generatedValue.strategy())) {
+          String generator = "".equals(generatedValue.generator()) ? Constant.DEFAULT_KEY_GENERATOR
+              : generatedValue.generator();
+          KeyGenerator keyGenerator = configuration.getKeyGenerator(generator);
+          if (keyGenerator == null) {
+            throw new IllegalArgumentException(
+                "mybatisjpa init failure , can not find '" + generator + "' in configuration.");
+          }
+          builder.keyGenerator(keyGenerator).keyProperty(keyProperty)
+              .keyColumn(PersistentUtil.getColumnName(generatedField));
         }
-        builder.keyGenerator(keyGenerator).keyProperty(keyProperty)
-            .keyColumn(PersistentUtil.getColumnName(id));
       }
     }
 
@@ -83,6 +87,10 @@ public class InsertStatementFactory extends AbstractStatementFactory {
 
     if (SelectorStrategy.CERTAIN.equals(strategy)) {
       return InsertCertainSqlTemplate.INSTANCE.parseSQL(type);
+    }
+
+    if (isCollectionParameter(method)) {
+      return InsertBatchSqlTemplate.INSTANCE.parseSQL(type);
     }
 
     return InsertSqlTemplate.INSTANCE.parseSQL(type);

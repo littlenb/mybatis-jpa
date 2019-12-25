@@ -4,6 +4,8 @@ import java.sql.Statement;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.ExecutorException;
 import org.apache.ibatis.executor.keygen.KeyGenerator;
@@ -48,6 +50,15 @@ public class IdentityKeyGenerator implements KeyGenerator {
       handleCollection(ms, stmt, (Collection) parameter);
     } else if (parameter.getClass().isArray()) {
       handleCollection(ms, stmt, Arrays.asList(parameter));
+    } else if (parameter instanceof Map) {
+      Map parameterMap = (Map) parameter;
+      if (parameterMap.containsKey("collection")) {
+        handleCollection(ms, stmt, (Collection) parameterMap.get("collection"));
+      } else if (parameterMap.containsKey("list")) {
+        handleCollection(ms, stmt, (List) parameterMap.get("list"));
+      } else if (parameterMap.containsKey("array")) {
+        handleCollection(ms, stmt, Arrays.asList((Object[]) parameterMap.get("array")));
+      }
     } else {
       handleObject(ms, stmt, parameter, idGenerator.nextId());
     }

@@ -3,6 +3,7 @@ package com.littlenb.mybatisjpa.statement;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Collection;
 import sun.reflect.generics.reflectiveObjects.TypeVariableImpl;
 
 /**
@@ -54,5 +55,13 @@ public abstract class AbstractStatementFactory implements StatementFactory {
     return actualType;
   }
 
+  protected boolean isCollectionParameter(Method method) {
+    Class<?>[] parameterTypes = method.getParameterTypes();
+    if (parameterTypes == null || parameterTypes.length == 0) {
+      return false;
+    }
+    Class<?> clazz = parameterTypes[0];
+    return Collection.class.isAssignableFrom(clazz);
+  }
 
 }

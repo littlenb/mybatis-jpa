@@ -163,7 +163,7 @@ public class PersistentUtil {
   }
 
   public static boolean isPersistentField(Field field) {
-    return !field.isAnnotationPresent(Transient.class);
+    return !field.isAnnotationPresent(Transient.class) && !isAssociationField(field);
   }
 
   public static boolean isAssociationField(Field field) {

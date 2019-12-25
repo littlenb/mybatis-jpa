@@ -13,12 +13,12 @@ public class ColumnNameUtil {
       return "";
     }
     StringBuilder result = new StringBuilder(text.length() + 1);
-    result.append(text.substring(0, 1));
+    result.append(text.charAt(0));
     for (int i = 1; i < text.length(); i++) {
       if (!Character.isLowerCase(text.charAt(i))) {
         result.append('_');
       }
-      result.append(text.substring(i, i + 1));
+      result.append(text.charAt(i));
     }
     return result.toString();
   }
