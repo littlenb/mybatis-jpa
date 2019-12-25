@@ -22,6 +22,9 @@ public class InsertCertainSqlTemplate implements SqlTemplate {
     values.append(" <trim prefix='(' suffix=')' suffixOverrides=',' > ");
 
     for (Field field : PersistentUtil.getPersistentFields(type)) {
+      if (!PersistentUtil.insertable(field)) {
+        continue;
+      }
       // columns
       columns.append(String.format(
           "<if test='includes.contains(\"%1$s\") and !excludes.contains(\"%1$s\")'> ",
