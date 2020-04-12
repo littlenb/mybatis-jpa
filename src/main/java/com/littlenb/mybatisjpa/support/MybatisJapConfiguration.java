@@ -1,18 +1,15 @@
 package com.littlenb.mybatisjpa.support;
 
+import com.littlenb.mybatisjpa.util.NamingStrategy;
+
 /**
  * @author sway.li
  */
 public class MybatisJapConfiguration {
 
-  private boolean camelToUnderline;
+  private NamingStrategy tableNamingStrategy;
 
-  /**
-   * @see Constant.DEFAULT_CASE_MODE
-   */
-  private int tableCaseMode;
-
-  private int columnCaseMode;
+  private NamingStrategy columnNamingStrategy;
 
   private MybatisJapConfiguration(){
   }
@@ -25,27 +22,19 @@ public class MybatisJapConfiguration {
     private static MybatisJapConfiguration instance = new MybatisJapConfiguration();
   }
 
-  public boolean isCamelToUnderline() {
-    return camelToUnderline;
+  public NamingStrategy getTableNamingStrategy() {
+    return tableNamingStrategy;
   }
 
-  public void setCamelToUnderline(boolean camelToUnderline) {
-    this.camelToUnderline = camelToUnderline;
+  public void setTableNamingStrategy(NamingStrategy tableNamingStrategy) {
+    this.tableNamingStrategy = tableNamingStrategy;
   }
 
-  public int getTableCaseMode() {
-    return tableCaseMode;
+  public NamingStrategy getColumnNamingStrategy() {
+    return columnNamingStrategy;
   }
 
-  public void setTableCaseMode(int tableCaseMode) {
-    this.tableCaseMode = tableCaseMode;
-  }
-
-  public int getColumnCaseMode() {
-    return columnCaseMode;
-  }
-
-  public void setColumnCaseMode(int columnCaseMode) {
-    this.columnCaseMode = columnCaseMode;
+  public void setColumnNamingStrategy(NamingStrategy columnNamingStrategy) {
+    this.columnNamingStrategy = columnNamingStrategy;
   }
 }

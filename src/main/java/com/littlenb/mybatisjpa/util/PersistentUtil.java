@@ -1,6 +1,5 @@
 package com.littlenb.mybatisjpa.util;
 
-import com.littlenb.mybatisjpa.support.Constant;
 import com.littlenb.mybatisjpa.support.MybatisJapConfiguration;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -22,10 +21,10 @@ public class PersistentUtil {
   private static MybatisJapConfiguration conf = MybatisJapConfiguration.getInstance();
 
   public static String getTableName(Class<?> clazz) {
-    return getTableName(clazz, conf.isCamelToUnderline(), conf.getTableCaseMode());
+    return getTableName(clazz, conf.getTableNamingStrategy());
   }
 
-  public static String getTableName(Class<?> clazz, boolean camelToUnderline, int caseMode) {
+  public static String getTableName(Class<?> clazz, NamingStrategy namingStrategy) {
     if (clazz.isAnnotationPresent(Table.class)) {
       Table table = clazz.getAnnotation(Table.class);
       if (!"".equals(table.name().trim())) {
@@ -34,40 +33,14 @@ public class PersistentUtil {
     }
     String tableName = clazz.getSimpleName();
 
-    if (camelToUnderline) {
-      tableName = ColumnNameUtil.camelToUnderline(tableName);
-    }
-
-    if (Constant.UPPER_CASE_MODE == caseMode) {
-      return tableName.toUpperCase();
-    }
-
-    if (Constant.LOWER_CASE_MODE == caseMode) {
-      return tableName.toLowerCase();
-    }
-
-    return tableName;
+    return namingStrategy.translate(tableName);
   }
 
   public static String getColumnName(Field field) {
-    return getColumnName(field, conf.isCamelToUnderline(), conf.getColumnCaseMode());
+    return getColumnName(field, conf.getColumnNamingStrategy());
   }
 
-  public static String getColumnName(Field field, boolean camelToUnderline) {
-    if (field.isAnnotationPresent(Column.class)) {
-      Column column = field.getAnnotation(Column.class);
-      if (!"".equals(column.name().trim())) {
-        return column.name();
-      }
-    }
-    if (!camelToUnderline) {
-      return field.getName();
-    } else {
-      return ColumnNameUtil.camelToUnderline(field.getName());
-    }
-  }
-
-  public static String getColumnName(Field field, boolean camelToUnderline, int caseMode) {
+  public static String getColumnName(Field field, NamingStrategy namingStrategy) {
     if (field.isAnnotationPresent(Column.class)) {
       Column column = field.getAnnotation(Column.class);
       if (!"".equals(column.name().trim())) {
@@ -76,19 +49,7 @@ public class PersistentUtil {
     }
     String columnName = field.getName();
 
-    if (camelToUnderline) {
-      columnName = ColumnNameUtil.camelToUnderline(columnName);
-    }
-
-    if (Constant.UPPER_CASE_MODE == caseMode) {
-      return columnName.toUpperCase();
-    }
-
-    if (Constant.LOWER_CASE_MODE == caseMode) {
-      return columnName.toLowerCase();
-    }
-
-    return columnName;
+    return namingStrategy.translate(columnName);
   }
 
   public static String getMappedName(Field field) {
