@@ -1,5 +1,6 @@
 package com.littlenb.mybatisjpa.support;
 
+import com.littlenb.mybatisjpa.util.NamingPolicy;
 import com.littlenb.mybatisjpa.util.NamingStrategy;
 
 /**
@@ -7,9 +8,9 @@ import com.littlenb.mybatisjpa.util.NamingStrategy;
  */
 public class MybatisJapConfiguration {
 
-  private NamingStrategy tableNamingStrategy;
+  private NamingStrategy tableNamingStrategy = NamingPolicy.IDENTITY;
 
-  private NamingStrategy columnNamingStrategy;
+  private NamingStrategy columnNamingStrategy = NamingPolicy.IDENTITY;
 
   private MybatisJapConfiguration(){
   }
